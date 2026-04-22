@@ -40,4 +40,12 @@ public class SourceEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<GraphEntity> getGraphs() {
+        return graphs;
+    }
+
+    public void setGraphs(Set<GraphEntity> graphs) {
+        this.graphs = graphs;
+    }
 }

@@ -21,10 +21,10 @@ public class UserEntity {
     @Column(nullable = false, length = 100)
     private String surname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "firebase_uuid", nullable = false, unique = true)
+    @Column(name = "id_firebase", nullable = false, unique = true)
     private String firebaseUuid;
 
     @Column(nullable = false)

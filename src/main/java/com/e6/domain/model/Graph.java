@@ -1,27 +1,29 @@
 package com.e6.domain.model;
 
-
-
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Graph {
     private UUID id;
     private String query;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Dashboard dashboard;
     private String coordinate;
+    private Set<Source> sources = new HashSet<>();
 
     public Graph (){}
 
-    public Graph (UUID id, String query, Date startDate, Date endDate, Dashboard dashboard, String coordinate) {
+    public Graph (UUID id, String query, LocalDate startDate, LocalDate endDate, Dashboard dashboard, String coordinate, Set<Source> sources) {
         this.id = id;
         this.query = query;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dashboard = dashboard;
         this.coordinate = coordinate;
+        this.sources = sources;
     }
 
     public UUID getId() {
@@ -40,19 +42,19 @@ public class Graph {
         this.query = query;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -70,5 +72,13 @@ public class Graph {
 
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public Set<Source> getSources() {
+        return sources;
+    }
+
+    public void setSources(Set<Source> sources) {
+        this.sources = sources;
     }
 }

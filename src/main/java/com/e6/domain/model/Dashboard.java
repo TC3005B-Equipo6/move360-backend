@@ -1,6 +1,8 @@
 package com.e6.domain.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Dashboard {
@@ -8,18 +10,20 @@ public class Dashboard {
     private User owner;
     private String title;
     private String description;
-    private Date createdAt;
-    private boolean active;
+    private LocalDateTime createdAt;
+    private boolean isPublic;
+    private Set<Tag> tags = new HashSet<>();
 
     public Dashboard() {}
 
-    public Dashboard(UUID id, User owner, String title, String description, Date createdAt, boolean active) {
+    public Dashboard(UUID id, User owner, String title, String description, LocalDateTime createdAt, boolean isPublic, Set<Tag> tags) {
         this.id = id;
         this.owner = owner;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-        this.active = active;
+        this.isPublic = isPublic;
+        this.tags = tags;
     }
 
     public UUID getId() {
@@ -46,25 +50,35 @@ public class Dashboard {
         this.description = description;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isPublic() {
+        return isPublic;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 
     public User getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {}
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 }

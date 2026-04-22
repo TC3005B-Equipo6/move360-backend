@@ -7,6 +7,8 @@ public class Tag {
     private String name;
     private Color color;
 
+    public Tag () {}
+
     public Tag (UUID id, String name, Color color) {
         this.id = id;
         this.name = name;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -28,13 +28,14 @@ public class GraphEntity {
     private UUID id;
 
     @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
     private String query;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(nullable = false, length = 50)
     private String coordinate;
@@ -45,9 +46,65 @@ public class GraphEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "graph_sources",
+            name = "graph_source",
             joinColumns = @JoinColumn(name = "graph_id"),
             inverseJoinColumns = @JoinColumn(name = "source_id")
     )
     private Set<SourceEntity> sources = new HashSet<>();
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public DashboardEntity getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(DashboardEntity dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    public Set<SourceEntity> getSources() {
+        return sources;
+    }
+
+    public void setSources(Set<SourceEntity> sources) {
+        this.sources = sources;
+    }
 }

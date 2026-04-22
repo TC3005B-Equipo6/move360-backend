@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "dashboard")
@@ -27,11 +30,11 @@ public class DashboardEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name ="created_at", nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "is_public", nullable = false)
     private boolean isPublic;
@@ -74,11 +77,11 @@ public class DashboardEntity {
         this.description = description;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

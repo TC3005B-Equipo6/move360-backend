@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -17,12 +17,13 @@ public class IndicatorEntity {
     private UUID id;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
     private String query;
 
     @Column(nullable = false)
@@ -53,19 +54,19 @@ public class IndicatorEntity {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
