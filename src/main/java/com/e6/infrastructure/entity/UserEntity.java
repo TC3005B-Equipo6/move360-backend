@@ -7,7 +7,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "app_user")
 public class UserEntity {
 
     @Id
