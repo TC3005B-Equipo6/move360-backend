@@ -1,4 +1,4 @@
-package com.e6.interfaces;
+package com.e6.interfaces.rest;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
