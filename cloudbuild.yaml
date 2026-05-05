@@ -1,0 +1,25 @@
+steps:
+
+  - name: 'maven:3.9.6-eclipse-temurin-17'
+    entrypoint: 'mvn'
+    args: ['clean', 'package', '-Dmaven.test.skip=true']
+
+ 
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/move360/move360-backend:latest'
+      - '.'
+
+ 
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'push'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/move360/move360-backend:latest'
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/move360/move360-backend:latest'
+# Trigger test 1
+options:
+  logging: CLOUD_LOGGING_ONLY
