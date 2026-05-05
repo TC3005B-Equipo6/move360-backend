@@ -15,7 +15,7 @@ substitutions:
   _REPOSITORY: move360
   _IMAGE: move360-backend
   _SERVICE: move360
-  _PROJECT_ID: "Equipo 6"
+  _PROJECT_ID: 	project-fa58d7d7-fa9b-4aba-82e
 
 options:
   logging: CLOUD_LOGGING_ONLY
@@ -23,7 +23,7 @@ options:
 steps:
   - id: package
     name: maven:3.9-eclipse-temurin-21
-    entrypoint: ./mvnw
+    entrypoint: mvnw
     args: ['-B', '-DskipTests', 'package']
 
   - id: build-and-push
