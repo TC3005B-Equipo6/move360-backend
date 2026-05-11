@@ -26,7 +26,7 @@ public class RoleEntity {
     public UUID getId() {
         return id;
     }
-
+   
     public void setId(UUID id) {
         this.id = id;
     }
