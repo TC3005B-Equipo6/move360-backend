@@ -1,4 +1,4 @@
-package com.e6.domain.model;
+package org.acme.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

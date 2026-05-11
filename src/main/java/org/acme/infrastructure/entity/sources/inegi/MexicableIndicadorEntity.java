@@ -1,4 +1,4 @@
-package com.e6.infrastructure.entity.sources.inegi;
+package org.acme.infrastructure.entity.sources.inegi;
 
 import jakarta.persistence.*;
 
