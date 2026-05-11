@@ -1,9 +1,9 @@
-package com.e6.infrastructure.repository;
+package org.acme.infrastructure.repository;
 
-import com.e6.domain.model.User;
-import com.e6.domain.repository.UserRepository;
-import com.e6.infrastructure.entity.UserEntity;
-import com.e6.infrastructure.mapper.UserMapper;
+import org.acme.domain.model.User;
+import org.acme.domain.repository.UserRepository;
+import org.acme.infrastructure.entity.UserEntity;
+import org.acme.infrastructure.mapper.UserMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 

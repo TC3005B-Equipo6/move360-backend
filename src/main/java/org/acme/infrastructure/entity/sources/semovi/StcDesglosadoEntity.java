@@ -1,4 +1,4 @@
-package com.e6.infrastructure.entity.sources.semovi;
+package org.acme.infrastructure.entity.sources.semovi;
 
 import jakarta.persistence.*;
 

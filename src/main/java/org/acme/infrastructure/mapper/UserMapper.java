@@ -1,7 +1,8 @@
-package com.e6.infrastructure.mapper;
-import com.e6.domain.model.Role;
-import com.e6.domain.model.User;
-import com.e6.infrastructure.entity.UserEntity;
+package org.acme.infrastructure.mapper;
+import org.acme.domain.model.Role;
+import org.acme.domain.model.User;
+import org.acme.infrastructure.entity.UserEntity;
+
 
 public class UserMapper {
 

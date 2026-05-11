@@ -1,4 +1,4 @@
-package com.e6.infrastructure.entity;
+package org.acme.infrastructure.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;

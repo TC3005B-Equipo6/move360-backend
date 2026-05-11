@@ -1,7 +1,7 @@
 package org.acme.application.usecase;
 
-import com.e6.domain.model.User;
-import  com.e6.domain.repository.UserRepository;
+import org.acme.domain.model.User;
+import  org.acme.domain.repository.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 import jakarta.enterprise.context.ApplicationScoped;

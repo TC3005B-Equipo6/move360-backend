@@ -1,6 +1,6 @@
-package com.e6.domain.repository;
+package org.acme.domain.repository;
 
-import com.e6.domain.model.User;
+import org.acme.domain.model.User;
 
 import java.util.Optional;
 import java.util.UUID;
