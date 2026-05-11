@@ -1,5 +1,8 @@
 package org.acme.interfaces.rest;
-
+import org.acme.domain.model.User;
+import org.acme.application.dto.UserProfileResponseDto;
+import org.acme.application.dto.UserInfoResponseDto;
+import org.acme.application.usecase.GetAuthenticatedUserUseCase;
 import org.acme.application.usecase.ValidateAuthUseCase;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -13,9 +16,46 @@ public class AuthResource {
     @Inject
     ValidateAuthUseCase validateAuthUseCase;
 
+
+    @Inject
+    GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
+
+
+
     @GET
     @Path("/validate")
     public Response validar(@HeaderParam("Authorization") String authHeader) {
         return validateAuthUseCase.execute(authHeader);
     }
+
+
+    @GET
+    @Path("/profile")
+    public Response getProfile(@HeaderParam("Authorization") String authHeader) {
+        User user = getAuthenticatedUserUseCase.execute(authHeader);
+
+        return Response.ok(
+                new UserProfileResponseDto(
+                        user.getName(),
+                        user.getRole().getName()
+                )
+        ).build();
+    }
+
+    @GET
+    @Path("/email")
+    public Response getEmail(@HeaderParam("Authorization") String authHeader) {
+        User user = getAuthenticatedUserUseCase.execute(authHeader);
+
+        return Response.ok(
+                new UserInfoResponseDto(user.getEmail())
+        ).build();
+    }
+
+
+
+
+
+
+
 }
