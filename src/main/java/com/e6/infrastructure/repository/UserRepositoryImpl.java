@@ -16,18 +16,6 @@ public class UserRepositoryImpl implements
         PanacheRepositoryBase<UserEntity, UUID> {
 
     @Override
-    public Optional<User> findDomainById(UUID id) {
-
-        UserEntity entity = findById(id);
-
-        if (entity == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(UserMapper.toDomain(entity));
-    }
-
-    @Override
     public Optional<User> findByFirebaseUuid(String firebaseUuid) {
 
         return find("firebaseUuid", firebaseUuid)

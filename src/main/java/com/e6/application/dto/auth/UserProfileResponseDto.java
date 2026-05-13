@@ -1,16 +1,14 @@
-package com.e6.application.dto;
+package com.e6.application.dto.auth;
 
 
 import com.e6.domain.model.User;
 
 public class UserProfileResponseDto {
 
-    private String firstName;
-    private String surname;
-    private String role;
-    private String email;
-
-    public UserProfileResponseDto(){}
+    private final String firstName;
+    private final String surname;
+    private final String role;
+    private final String email;
 
     public UserProfileResponseDto(String name, String surname, String role, String email) {
         this.firstName = name;

@@ -1,6 +1,6 @@
-package com.e6.application.usecase;
+package com.e6.application.usecase.auth;
 
-import com.e6.application.dto.UserProfileResponseDto;
+import com.e6.application.dto.auth.UserProfileResponseDto;
 import com.e6.domain.model.User;
 import com.e6.infrastructure.security.AuthContext;
 import io.quarkus.security.UnauthorizedException;
