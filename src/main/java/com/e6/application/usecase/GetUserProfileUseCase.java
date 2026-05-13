@@ -1,26 +1,27 @@
 package com.e6.application.usecase;
 
+import com.e6.application.dto.UserProfileResponseDto;
 import com.e6.domain.model.User;
 import com.e6.infrastructure.security.AuthContext;
 import io.quarkus.security.UnauthorizedException;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class ValidateAuthUseCase {
+public class GetUserProfileUseCase {
 
     private final AuthContext authContext;
 
-    public ValidateAuthUseCase(AuthContext authContext) {
+    public GetUserProfileUseCase(AuthContext authContext) {
         this.authContext = authContext;
     }
 
-    public User execute() {
+    public UserProfileResponseDto execute() {
         User user = authContext.getUser();
 
-        if( user == null){
+        if( user == null ){
             throw new UnauthorizedException();
         }
 
-        return user;
+        return UserProfileResponseDto.from(user);
     }
 }
