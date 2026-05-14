@@ -1,9 +1,6 @@
 package com.e6.interfaces.rest;
-import com.e6.application.usecase.GetUserProfileUseCase;
-import com.e6.domain.model.User;
-import com.e6.application.dto.UserProfileResponseDto;
-import com.e6.application.usecase.ValidateAuthUseCase;
-import jakarta.inject.Inject;
+import com.e6.application.usecase.auth.GetUserProfileUseCase;
+import com.e6.application.usecase.auth.ValidateAuthUseCase;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -14,11 +11,13 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthResource {
 
-    @Inject
-    ValidateAuthUseCase validateAuthUseCase;
+    private final ValidateAuthUseCase validateAuthUseCase;
+    private final GetUserProfileUseCase getUserProfileUseCase;
 
-    @Inject
-    GetUserProfileUseCase getUserProfileUseCase;
+    public AuthResource(ValidateAuthUseCase validateAuthUseCase, GetUserProfileUseCase getUserProfileUseCase) {
+        this.validateAuthUseCase = validateAuthUseCase;
+        this.getUserProfileUseCase = getUserProfileUseCase;
+    }
 
     @GET
     public Response validate() {

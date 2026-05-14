@@ -25,6 +25,7 @@ public class FirebaseConfig {
                         : getClass().getClassLoader()
                         .getResourceAsStream("firebase-service-account.json");
 
+                assert serviceAccount != null;
                 FirebaseOptions options = FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                         .build();
