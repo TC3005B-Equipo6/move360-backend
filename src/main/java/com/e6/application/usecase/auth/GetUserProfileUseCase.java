@@ -18,9 +18,8 @@ public class GetUserProfileUseCase {
     public UserProfileResponseDto execute() {
         User user = authContext.getUser();
 
-        if( user == null ){
+        if(user == null)
             throw new UnauthorizedException();
-        }
 
         return UserProfileResponseDto.from(user);
     }
