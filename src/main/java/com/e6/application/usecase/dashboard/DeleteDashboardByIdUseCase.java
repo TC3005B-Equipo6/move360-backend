@@ -1,6 +1,5 @@
 package com.e6.application.usecase.dashboard;
 
-import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.repository.DashboardRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
