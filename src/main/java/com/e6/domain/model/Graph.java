@@ -3,10 +3,9 @@ package com.e6.domain.model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class Graph {
-    private UUID id;
+    private int id;
     private String query;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -16,7 +15,7 @@ public class Graph {
 
     public Graph (){}
 
-    public Graph (UUID id, String query, LocalDate startDate, LocalDate endDate, Dashboard dashboard, String coordinate, Set<Source> sources) {
+    public Graph (int id, String query, LocalDate startDate, LocalDate endDate, Dashboard dashboard, String coordinate, Set<Source> sources) {
         this.id = id;
         this.query = query;
         this.startDate = startDate;
@@ -26,11 +25,11 @@ public class Graph {
         this.sources = sources;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

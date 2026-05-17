@@ -4,16 +4,12 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "series")
 public class SeriesEntity {
 
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    private Integer id;
 
     @Column(nullable = false)
     @JdbcTypeCode(SqlTypes.JSON)
@@ -25,11 +21,11 @@ public class SeriesEntity {
 
     public SeriesEntity() {}
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

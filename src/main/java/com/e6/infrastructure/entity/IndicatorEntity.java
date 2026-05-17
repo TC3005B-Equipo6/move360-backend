@@ -5,16 +5,13 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "indicator")
 public class IndicatorEntity {
 
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    private Integer id;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -46,11 +43,11 @@ public class IndicatorEntity {
 
     public IndicatorEntity() {}
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

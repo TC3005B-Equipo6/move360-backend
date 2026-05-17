@@ -1,25 +1,23 @@
 package com.e6.domain.model;
 
-import java.util.UUID;
-
 public class Series {
-    private UUID id;
+    private int id;
     private String data;
     private Graph graph;
 
     public Series(){}
 
-    public Series(UUID id, String data, Graph graph) {
+    public Series(int id, String data, Graph graph) {
         this.id = id;
         this.data = data;
         this.graph = graph;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
