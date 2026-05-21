@@ -21,7 +21,7 @@ public class RoleEntity {
 
     public RoleEntity() {}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
