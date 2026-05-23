@@ -8,16 +8,15 @@ import java.util.List;
 public final class ColorMapper {
 
     public static Color toDomain(ColorEntity colorEntity){
-        Color color = new Color();
-        color.setId(colorEntity.getId());
-        color.setName(colorEntity.getName());
-        color.setHex(colorEntity.getHex());
-        return color;
+        return Color.builder()
+                .id(colorEntity.getId())
+                .name(colorEntity.getName())
+                .hex(colorEntity.getHex())
+                .build();
     }
 
     public static ColorEntity toEntity(Color color){
         ColorEntity colorEntity = new ColorEntity();
-        colorEntity.setId(color.getId());
         colorEntity.setName(color.getName());
         colorEntity.setHex(color.getHex());
         return colorEntity;

@@ -7,6 +7,28 @@ public class Color {
 
     public Color () {}
 
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+        private int id;
+        private String name;
+        private String hex;
+
+        public Builder id(int id) { this.id = id; return this; }
+        public Builder name(String name) { this.name = name; return this; }
+        public Builder hex(String hex) { this.hex = hex; return this;}
+
+        public Color build(){
+            Color color = new Color();
+            color.id = this.id;
+            color.name = this.name;
+            color.hex = this.hex;
+            return color;
+        }
+    }
+
     public Color (int id, String name, String hex) {
         this.id = id;
         this.name = name;
@@ -16,24 +38,10 @@ public class Color {
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getHex() {
         return hex;
-    }
-
-    public void setHex(String hex) {
-        this.hex = hex;
     }
 }
