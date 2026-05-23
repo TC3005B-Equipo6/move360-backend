@@ -41,7 +41,7 @@ public class DashboardResource {
 
     @GET
     @Path("/{id}")
-    public Response getDashboardById(@PathParam("id") UUID id){
+    public Response getDashboard(@PathParam("id") UUID id){
         try {
             return Response.ok(getDashboardByIdUseCase.execute(id)).build();
         } catch (DashboardNotFoundException e){
@@ -52,7 +52,7 @@ public class DashboardResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteDashboardById(@PathParam("id") UUID id){
+    public Response deleteDashboard(@PathParam("id") UUID id){
         try {
             deleteDashboardByIdUseCase.execute(id);
             return Response.noContent().build();
