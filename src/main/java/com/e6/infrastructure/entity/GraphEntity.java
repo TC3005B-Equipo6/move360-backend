@@ -7,7 +7,6 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "graph")
@@ -23,9 +22,7 @@ import java.util.UUID;
 public class GraphEntity {
 
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    private Integer id;
 
     @Column(nullable = false)
     @JdbcTypeCode(SqlTypes.JSON)
@@ -52,11 +49,11 @@ public class GraphEntity {
     )
     private Set<SourceEntity> sources = new HashSet<>();
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

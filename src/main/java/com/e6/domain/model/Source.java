@@ -1,23 +1,21 @@
 package com.e6.domain.model;
 
-import java.util.UUID;
-
 public class Source {
-    private UUID id;
+    private int id;
     private String name;
 
     public Source () {}
 
-    public Source (UUID id, String name) {
+    public Source (int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

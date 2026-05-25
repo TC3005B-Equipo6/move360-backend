@@ -1,10 +1,9 @@
 package com.e6.domain.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class Indicator {
-    private UUID id;
+    private int id;
     private Source source;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -16,7 +15,7 @@ public class Indicator {
 
     public Indicator() {}
 
-    public Indicator(UUID id, Source source, LocalDate startDate, LocalDate endDate, String query, Dashboard dashboard, String title, Color color, String coordinate) {
+    public Indicator(int id, Source source, LocalDate startDate, LocalDate endDate, String query, Dashboard dashboard, String title, Color color, String coordinate) {
         this.id = id;
         this.source = source;
         this.startDate = startDate;
@@ -28,11 +27,11 @@ public class Indicator {
         this.coordinate = coordinate;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

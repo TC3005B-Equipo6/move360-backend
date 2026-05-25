@@ -4,6 +4,7 @@ import com.e6.domain.model.Dashboard;
 import com.e6.infrastructure.entity.DashboardEntity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class DashboardMapper {
@@ -16,7 +17,7 @@ public final class DashboardMapper {
         dashboard.setDescription(dashboardEntity.getDescription());
         dashboard.setCreatedAt(dashboardEntity.getCreatedAt());
         dashboard.setPublic(dashboardEntity.isPublic());
-        //TODO: agregar lógica de tags
+        dashboard.setTags(TagMapper.toDomainSet(dashboardEntity.getTags()));
         return dashboard;
     }
 
@@ -24,6 +25,13 @@ public final class DashboardMapper {
         return entities.stream()
                 .map(DashboardMapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    public static Set<Dashboard> toDomainSet(Set<DashboardEntity> entities){
+        return entities.stream()
+                .map(DashboardMapper::toDomain)
+                .collect(Collectors.toSet());
+
     }
 
     public static DashboardEntity toEntity(Dashboard dashboard){
@@ -34,7 +42,7 @@ public final class DashboardMapper {
         dashboardEntity.setDescription(dashboard.getDescription());
         dashboardEntity.setCreatedAt(dashboard.getCreatedAt());
         dashboardEntity.setPublic(dashboard.isPublic());
-        //TODO: agregar lógica de tags
+        dashboardEntity.setTags(TagMapper.toEntitySet(dashboard.getTags()));
         return dashboardEntity;
     }
 
@@ -42,5 +50,11 @@ public final class DashboardMapper {
         return dashboards.stream()
                 .map(DashboardMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    public static Set<DashboardEntity> toEntitySet(Set<Dashboard> dashboards){
+        return dashboards.stream()
+                .map(DashboardMapper::toEntity)
+                .collect(Collectors.toSet());
     }
 }

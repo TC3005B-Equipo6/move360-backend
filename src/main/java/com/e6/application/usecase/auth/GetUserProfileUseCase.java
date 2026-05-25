@@ -1,6 +1,6 @@
 package com.e6.application.usecase.auth;
 
-import com.e6.application.dto.auth.UserProfileResponseDto;
+import com.e6.application.dto.auth.UserProfileResponseDTO;
 import com.e6.domain.model.User;
 import com.e6.infrastructure.security.AuthContext;
 import io.quarkus.security.UnauthorizedException;
@@ -15,12 +15,12 @@ public class GetUserProfileUseCase {
         this.authContext = authContext;
     }
 
-    public UserProfileResponseDto execute() {
+    public UserProfileResponseDTO execute() {
         User user = authContext.getUser();
 
         if(user == null)
             throw new UnauthorizedException();
 
-        return UserProfileResponseDto.from(user);
+        return UserProfileResponseDTO.from(user);
     }
 }

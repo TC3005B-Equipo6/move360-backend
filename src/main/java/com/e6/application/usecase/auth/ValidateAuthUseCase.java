@@ -17,7 +17,7 @@ public class ValidateAuthUseCase {
     public User execute() {
         User user = authContext.getUser();
 
-        if( user == null){
+        if(user == null){
             throw new UnauthorizedException();
         }
 

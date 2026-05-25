@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DashboardRepository {
-
     Dashboard createDashboard(Dashboard dashboard);
     List<Dashboard> getUserDashboards(User user);
     Dashboard findDashboardById(UUID uuid);

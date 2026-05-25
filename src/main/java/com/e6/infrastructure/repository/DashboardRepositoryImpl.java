@@ -39,7 +39,7 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
     public Dashboard findDashboardById(UUID id) {
         DashboardEntity dashboardEntity = findById(id);
         if (dashboardEntity == null)
-            throw new DashboardNotFoundException();
+            throw new DashboardNotFoundException(id.toString());
         return DashboardMapper.toDomain(dashboardEntity);
     }
 
@@ -48,6 +48,6 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
     public void deleteDashboardById(UUID id) {
         boolean deleted = deleteById(id);
         if (!deleted)
-            throw new DashboardNotFoundException();
+            throw new DashboardNotFoundException(id.toString());
     }
 }

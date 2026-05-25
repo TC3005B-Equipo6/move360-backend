@@ -71,14 +71,15 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                     .getInstance()
                     .verifyIdToken(token,true);
             Optional<User> userOptional= userRepository.findByFirebaseUuid(decodedToken.getUid());
-            if(userOptional.isEmpty()){
-                requestContext.abortWith(
-                        Response.status(Response.Status.UNAUTHORIZED)
-                                .entity("No autorizado").build()
-                );
+            if(userOptional.isPresent()){
+                User user = userOptional.get();
+                authContext.setUser(user);
+                return;
             }
-            User user = userOptional.get();
-            authContext.setUser(user);
+            requestContext.abortWith(
+                    Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("No autorizado").build()
+            );
 
         } catch (FirebaseAuthException e) {
             requestContext.abortWith(
