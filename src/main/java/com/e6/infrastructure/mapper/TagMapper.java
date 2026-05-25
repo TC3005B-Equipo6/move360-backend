@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 public final class TagMapper {
 
     public static Tag toDomain(TagEntity tagEntity){
-        return Tag.builder
+        return Tag.builder()
                 .id(tagEntity.getId())
+                .name(tagEntity.getName())
                 .color(ColorMapper.toDomain(tagEntity.getColor()))
                 .dashboards(DashboardMapper.toDomainSet(tagEntity.getDashboards()))
                 .build();
@@ -24,10 +25,8 @@ public final class TagMapper {
 
     public static TagEntity toEntity(Tag tag){
         TagEntity tagEntity = new TagEntity();
-        tagEntity.setId(tag.getId());
         tagEntity.setName(tag.getName());
         tagEntity.setDashboards(DashboardMapper.toEntitySet(tag.getDashboards()));
-        tagEntity.setColor(ColorMapper.toEntity(tag.getColor()));
         return tagEntity;
     }
 
