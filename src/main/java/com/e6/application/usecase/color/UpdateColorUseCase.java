@@ -15,9 +15,9 @@ public class UpdateColorUseCase {
         this.colorRepository = colorRepository;
     }
 
-    public Color execute(UpdateColorDTO updateColorDTO){
+    public Color execute(int id, UpdateColorDTO updateColorDTO){
         Color color = Color.builder()
-                .id(updateColorDTO.id())
+                .id(id)
                 .name(updateColorDTO.name())
                 .hex(updateColorDTO.hex())
                 .build();

@@ -50,9 +50,10 @@ public class ColorResource {
     }
 
     @PATCH
-    public Response updateColor(@Valid UpdateColorDTO updateColorDTO){
+    @Path("{id}")
+    public Response updateColor(@PathParam("id") int id, @Valid UpdateColorDTO updateColorDTO){
         try{
-            return Response.ok(updateColorUseCase.execute(updateColorDTO)).build();
+            return Response.ok(updateColorUseCase.execute(id, updateColorDTO)).build();
         } catch(ColorNotFoundException e){
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
