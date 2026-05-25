@@ -2,10 +2,10 @@ package com.e6.application.dto.auth;
 
 import com.e6.domain.model.User;
 
-public record UserProfileResponseDto(String firstName, String surname, String role, String email) {
+public record UserProfileResponseDTO(String firstName, String surname, String role, String email) {
 
-    public static UserProfileResponseDto from(User user) {
-        return new UserProfileResponseDto(
+    public static UserProfileResponseDTO from(User user) {
+        return new UserProfileResponseDTO(
                 user.getFirstName(),
                 user.getPaternalSurname(),
                 user.getRole().getName(),
