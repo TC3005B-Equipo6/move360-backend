@@ -9,16 +9,27 @@ import java.util.stream.Collectors;
 
 public final class DashboardMapper {
 
-    public static Dashboard toDomain(DashboardEntity dashboardEntity){
-        Dashboard dashboard = new Dashboard();
-        dashboard.setId(dashboardEntity.getId());
-        dashboard.setOwner(UserMapper.toDomain(dashboardEntity.getOwner()));
-        dashboard.setTitle(dashboardEntity.getTitle());
-        dashboard.setDescription(dashboardEntity.getDescription());
-        dashboard.setCreatedAt(dashboardEntity.getCreatedAt());
-        dashboard.setPublic(dashboardEntity.isPublic());
-        dashboard.setTags(TagMapper.toDomainSet(dashboardEntity.getTags()));
-        return dashboard;
+    public static Dashboard toDomain(DashboardEntity dashboardEntity) {
+        return Dashboard.builder()
+                .id(dashboardEntity.getId())
+                .owner(UserMapper.toDomain(dashboardEntity.getOwner()))
+                .title(dashboardEntity.getTitle())
+                .description(dashboardEntity.getDescription())
+                .createdAt(dashboardEntity.getCreatedAt())
+                .isPublic(dashboardEntity.isPublic())
+                .tags(TagMapper.toDomainSetWithoutDashboards(dashboardEntity.getTags()))
+                .build();
+    }
+
+    public static Dashboard toDomainWithoutTags(DashboardEntity dashboardEntity) {
+        return Dashboard.builder()
+                .id(dashboardEntity.getId())
+                .owner(UserMapper.toDomain(dashboardEntity.getOwner()))
+                .title(dashboardEntity.getTitle())
+                .description(dashboardEntity.getDescription())
+                .createdAt(dashboardEntity.getCreatedAt())
+                .isPublic(dashboardEntity.isPublic())
+                .build();
     }
 
     public static List<Dashboard> toDomainList(List<DashboardEntity> entities) {
@@ -27,14 +38,20 @@ public final class DashboardMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Set<Dashboard> toDomainSet(Set<DashboardEntity> entities){
+    public static Set<Dashboard> toDomainSet(Set<DashboardEntity> entities) {
         return entities.stream()
                 .map(DashboardMapper::toDomain)
                 .collect(Collectors.toSet());
 
     }
 
-    public static DashboardEntity toEntity(Dashboard dashboard){
+    public static Set<Dashboard> toDomainSetWithoutTags(Set<DashboardEntity> entities) {
+        return entities.stream()
+                .map(DashboardMapper::toDomainWithoutTags)
+                .collect(Collectors.toSet());
+    }
+
+    public static DashboardEntity toEntity(Dashboard dashboard) {
         DashboardEntity dashboardEntity = new DashboardEntity();
         dashboardEntity.setId(dashboard.getId());
         dashboardEntity.setOwner(UserMapper.toEntity(dashboard.getOwner()));
@@ -52,7 +69,7 @@ public final class DashboardMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Set<DashboardEntity> toEntitySet(Set<Dashboard> dashboards){
+    public static Set<DashboardEntity> toEntitySet(Set<Dashboard> dashboards) {
         return dashboards.stream()
                 .map(DashboardMapper::toEntity)
                 .collect(Collectors.toSet());

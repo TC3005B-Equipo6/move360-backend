@@ -1,5 +1,6 @@
 package com.e6.application.usecase.dashboard;
 
+import com.e6.application.dto.dashboard.GetUserDashboardsResponseDTO;
 import com.e6.domain.model.Dashboard;
 import com.e6.domain.repository.DashboardRepository;
 import com.e6.infrastructure.security.AuthContext;
@@ -18,7 +19,7 @@ public class GetUserDashboardsUseCase {
         this.dashboardRepository = dashboardRepository;
     }
 
-    public List<Dashboard> execute(){
+    public List<GetUserDashboardsResponseDTO> execute(){
         return dashboardRepository.getUserDashboards(authContext.getUser());
     }
 }
