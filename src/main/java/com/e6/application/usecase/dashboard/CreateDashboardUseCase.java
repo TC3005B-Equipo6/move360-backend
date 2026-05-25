@@ -1,10 +1,14 @@
 package com.e6.application.usecase.dashboard;
 
 import com.e6.application.dto.dashboard.CreateDashboardDTO;
+import com.e6.application.dto.dashboard.CreateDashboardResponseDTO;
 import com.e6.domain.model.Dashboard;
 import com.e6.domain.repository.DashboardRepository;
 import com.e6.infrastructure.security.AuthContext;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CreateDashboardUseCase {
@@ -17,13 +21,15 @@ public class CreateDashboardUseCase {
         this.dashboardRepository = dashboardRepository;
     }
 
-    public Dashboard execute(CreateDashboardDTO createDashboardDTO) {
-        Dashboard dashboard = new Dashboard();
-
-        dashboard.setOwner(authContext.getUser());
-        dashboard.setTitle(createDashboardDTO.title());
-        dashboard.setDescription(createDashboardDTO.description());
-        dashboard.setPublic(createDashboardDTO.isPublic());
+    public CreateDashboardResponseDTO execute(CreateDashboardDTO createDashboardDTO) {
+        Dashboard dashboard = Dashboard.builder()
+                .id(UUID.randomUUID())
+                .owner(authContext.getUser())
+                .title(createDashboardDTO.title())
+                .description(createDashboardDTO.description())
+                .isPublic(createDashboardDTO.isPublic())
+                .createdAt(LocalDateTime.now())
+                .build();
 
         return dashboardRepository.createDashboard(dashboard);
     }

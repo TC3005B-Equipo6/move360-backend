@@ -14,7 +14,69 @@ public class Dashboard {
     private boolean isPublic;
     private Set<Tag> tags = new HashSet<>();
 
-    public Dashboard() {}
+    public Dashboard() {
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private UUID id;
+        private User owner;
+        private String title;
+        private String description;
+        private LocalDateTime createdAt;
+        private boolean isPublic;
+        private Set<Tag> tags = new HashSet<>();
+
+        public Builder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder owner(User owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder isPublic(boolean isPublic) {
+            this.isPublic = isPublic;
+            return this;
+        }
+
+        public Builder tags(Set<Tag> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public Dashboard build() {
+            Dashboard dashboard = new Dashboard();
+            dashboard.id = this.id;
+            dashboard.owner = this.owner;
+            dashboard.title = this.title;
+            dashboard.description = this.description;
+            dashboard.createdAt = this.createdAt;
+            dashboard.isPublic = this.isPublic;
+            dashboard.tags = this.tags;
+            return dashboard;
+        }
+    }
 
     public Dashboard(UUID id, User owner, String title, String description, LocalDateTime createdAt, boolean isPublic, Set<Tag> tags) {
         this.id = id;
@@ -30,55 +92,27 @@ public class Dashboard {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public boolean isPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
     public User getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
     public Set<Tag> getTags() {
         return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
     }
 }
