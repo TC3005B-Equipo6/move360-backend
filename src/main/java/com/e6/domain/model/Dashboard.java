@@ -13,6 +13,8 @@ public class Dashboard {
     private LocalDateTime createdAt;
     private boolean isPublic;
     private Set<Tag> tags = new HashSet<>();
+    private Set<Graph> graphs = new HashSet<>();
+    private Set<Indicator> indicators = new HashSet<>();
 
     public Dashboard() {
     }
@@ -29,6 +31,8 @@ public class Dashboard {
         private LocalDateTime createdAt;
         private boolean isPublic;
         private Set<Tag> tags = new HashSet<>();
+        private Set<Graph> graphs = new HashSet<>();
+        private Set<Indicator> indicators = new HashSet<>();
 
         public Builder id(UUID id) {
             this.id = id;
@@ -65,6 +69,16 @@ public class Dashboard {
             return this;
         }
 
+        public Builder graphs(Set<Graph> graphs) {
+            this.graphs = graphs;
+            return this;
+        }
+
+        public Builder indicators(Set<Indicator> indicators) {
+            this.indicators = indicators;
+            return this;
+        }
+
         public Dashboard build() {
             Dashboard dashboard = new Dashboard();
             dashboard.id = this.id;
@@ -74,11 +88,13 @@ public class Dashboard {
             dashboard.createdAt = this.createdAt;
             dashboard.isPublic = this.isPublic;
             dashboard.tags = this.tags;
+            dashboard.graphs = this.graphs;
+            dashboard.indicators = this.indicators;
             return dashboard;
         }
     }
 
-    public Dashboard(UUID id, User owner, String title, String description, LocalDateTime createdAt, boolean isPublic, Set<Tag> tags) {
+    public Dashboard(UUID id, User owner, String title, String description, LocalDateTime createdAt, boolean isPublic, Set<Tag> tags, Set<Graph> graphs, Set<Indicator> indicators) {
         this.id = id;
         this.owner = owner;
         this.title = title;
@@ -86,6 +102,8 @@ public class Dashboard {
         this.createdAt = createdAt;
         this.isPublic = isPublic;
         this.tags = tags;
+        this.graphs = graphs;
+        this.indicators = indicators;
     }
 
     public UUID getId() {
@@ -114,5 +132,13 @@ public class Dashboard {
 
     public Set<Tag> getTags() {
         return tags;
+    }
+
+    public Set<Graph> getGraphs() {
+        return graphs;
+    }
+
+    public Set<Indicator> getIndicators() {
+        return indicators;
     }
 }
