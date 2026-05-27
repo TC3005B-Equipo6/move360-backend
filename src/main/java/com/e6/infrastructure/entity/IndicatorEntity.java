@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class IndicatorEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "start_date", nullable = false)

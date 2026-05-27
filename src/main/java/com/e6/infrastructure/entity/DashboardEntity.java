@@ -13,10 +13,19 @@ import java.util.UUID;
 @Table(name = "dashboard")
 @NamedEntityGraphs({
         @NamedEntityGraph(
-                name = "Dashboard.full",
+                name = "Dashboard.simple",
                 attributeNodes = {
                         @NamedAttributeNode("owner"),
                         @NamedAttributeNode("tags")
+                }
+        ),
+        @NamedEntityGraph(
+                name = "Dashboard.full",
+                attributeNodes = {
+                        @NamedAttributeNode("owner"),
+                        @NamedAttributeNode("tags"),
+                        @NamedAttributeNode("graphs"),
+                        @NamedAttributeNode("indicators")
                 }
         )
 })
@@ -50,6 +59,14 @@ public class DashboardEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<TagEntity> tags = new HashSet<>();
+
+    @OneToMany(mappedBy = "dashboard", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GraphEntity> graphs = new HashSet<>();
+
+    @OneToMany(mappedBy = "dashboard", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IndicatorEntity> indicators = new HashSet<>();
 
     public DashboardEntity() {}
 
@@ -107,5 +124,21 @@ public class DashboardEntity {
 
     public void setTags(Set<TagEntity> tags) {
         this.tags = tags;
+    }
+
+    public Set<GraphEntity> getGraphs() {
+        return graphs;
+    }
+
+    public void setGraphs(Set<GraphEntity> graphs) {
+        this.graphs = graphs;
+    }
+
+    public Set<IndicatorEntity> getIndicators() {
+        return indicators;
+    }
+
+    public void setIndicators(Set<IndicatorEntity> indicators) {
+        this.indicators = indicators;
     }
 }

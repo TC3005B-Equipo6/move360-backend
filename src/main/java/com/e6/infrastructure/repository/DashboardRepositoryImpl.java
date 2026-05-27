@@ -20,11 +20,16 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepositoryBase<DashboardEntity, UUID> {
+
+    private static final String FETCH_GRAPH_HINT = "jakarta.persistence.fetchgraph";
+    private static final String DASHBOARD_SIMPLE = "Dashboard.simple";
+    private static final String DASHBOARD_FULL = "Dashboard.full";
 
     @Override
     @Transactional
@@ -37,7 +42,10 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
 
     @Override
     public List<GetDashboardsResponseDTO> getPublicDashboards() {
-        List<Dashboard> dashboards = DashboardMapper.toDomainList(list("isPublic", true));
+        List<DashboardEntity> entities = find("isPublic", true)
+                .withHint(FETCH_GRAPH_HINT, getEntityManager().getEntityGraph(DASHBOARD_SIMPLE))
+                .list();
+        List<Dashboard> dashboards = DashboardMapper.toDomainList(entities);
         return dashboards.stream()
                 .map(GetDashboardsResponseDTO::from)
                 .collect(Collectors.toList());
@@ -45,7 +53,10 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
 
     @Override
     public List<GetUserDashboardsResponseDTO> getUserDashboards(User user) {
-        List<Dashboard> dashboards = DashboardMapper.toDomainList(list("owner", UserMapper.toEntity(user)));
+        List<DashboardEntity> entities = find("owner", UserMapper.toEntity(user))
+                .withHint(FETCH_GRAPH_HINT, getEntityManager().getEntityGraph(DASHBOARD_SIMPLE))
+                .list();
+        List<Dashboard> dashboards = DashboardMapper.toDomainList(entities);
         return dashboards.stream()
                 .map(GetUserDashboardsResponseDTO::from)
                 .collect(Collectors.toList());
@@ -53,9 +64,15 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
 
     @Override
     public Dashboard findDashboardById(UUID id) {
-        DashboardEntity dashboardEntity = findByIdOptional(id)
-                .orElseThrow(() -> new DashboardNotFoundException(String.valueOf(id)));
-        return DashboardMapper.toDomain(dashboardEntity);
+        DashboardEntity dashboardEntity = getEntityManager().find(
+                DashboardEntity.class,
+                id,
+                Map.of(FETCH_GRAPH_HINT, getEntityManager().getEntityGraph(DASHBOARD_FULL))
+        );
+        if (dashboardEntity == null) {
+            throw new DashboardNotFoundException(String.valueOf(id));
+        }
+        return DashboardMapper.toDomainFull(dashboardEntity);
     }
 
     @Override
@@ -75,7 +92,7 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
 
             TagEntity tagReference = getEntityManager().getReference(TagEntity.class, tagId);
             dashboardEntity.getTags().add(tagReference);
-            return AddTagResponseDTO.from(DashboardMapper.toDomain(dashboardEntity), TagMapper.toDomain(tagReference));
+            return AddTagResponseDTO.from(DashboardMapper.toDomainSimple(dashboardEntity), TagMapper.toDomain(tagReference));
         } catch (EntityNotFoundException e) {
             throw new TagNotFoundException(String.valueOf(tagId));
         }
