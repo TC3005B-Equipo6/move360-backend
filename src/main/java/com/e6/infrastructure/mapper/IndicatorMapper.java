@@ -1,6 +1,6 @@
 package com.e6.infrastructure.mapper;
 
-import com.e6.domain.model.Indicator;
+import com.e6.domain.model.Indicator.Indicator;
 import com.e6.infrastructure.entity.IndicatorEntity;
 
 import java.util.Set;
@@ -9,34 +9,43 @@ import java.util.stream.Collectors;
 public final class IndicatorMapper {
 
     public static Indicator toDomain(IndicatorEntity entity) {
-        Indicator indicator = new Indicator();
-        indicator.setId(entity.getId() == null ? 0 : entity.getId());
-        indicator.setStartDate(entity.getStartDate());
-        indicator.setEndDate(entity.getEndDate());
-        indicator.setQuery(entity.getQuery());
-        indicator.setTitle(entity.getTitle());
-        indicator.setCoordinate(entity.getCoordinate());
-        indicator.setDashboard(DashboardMapper.toDomainSimple(entity.getDashboard()));
-        if (entity.getColor() != null) {
-            indicator.setColor(ColorMapper.toDomain(entity.getColor()));
-        }
+        return Indicator.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                //.subtitle(entity.getSubtitle())
+                //.type(entity.getType())
+                //.data(entity.getData())
+                //.delta(entity.getDelta())
+                //.deltaData(entity.getDeltaData())
+                //.operation(entity.getOperation())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .query(entity.getQuery())
+                .dashboard(entity.getDashboard().getId())
+                //.coordinate(entity.getCoordinate())
+                //.source(entity.getSource())
+                .build();
         // TODO: crear SourceMapper y mapear entity.getSource() -> indicator.setSource(...)
-        return indicator;
     }
 
     public static Indicator toDomainWithoutDashboard(IndicatorEntity entity) {
-        Indicator indicator = new Indicator();
-        indicator.setId(entity.getId() == null ? 0 : entity.getId());
-        indicator.setStartDate(entity.getStartDate());
-        indicator.setEndDate(entity.getEndDate());
-        indicator.setQuery(entity.getQuery());
-        indicator.setTitle(entity.getTitle());
-        indicator.setCoordinate(entity.getCoordinate());
-        if (entity.getColor() != null) {
-            indicator.setColor(ColorMapper.toDomain(entity.getColor()));
-        }
+        return Indicator.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                //.subtitle(entity.getSubtitle())
+                //.type(entity.getType())
+                //.data(entity.getData())
+                //.delta(entity.getDelta())
+                //.deltaData(entity.getDeltaData())
+                //.operation(entity.getOperation())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .query(entity.getQuery())
+                .dashboard(entity.getDashboard().getId())
+                //.coordinate(entity.getCoordinate())
+                //.source(entity.getSource())
+                .build();
         // TODO: crear SourceMapper y mapear entity.getSource() -> indicator.setSource(...)
-        return indicator;
     }
 
     public static Set<Indicator> toDomainSetWithoutDashboard(Set<IndicatorEntity> entities) {
@@ -54,12 +63,9 @@ public final class IndicatorMapper {
         entity.setEndDate(indicator.getEndDate());
         entity.setQuery(indicator.getQuery());
         entity.setTitle(indicator.getTitle());
-        entity.setCoordinate(indicator.getCoordinate());
-        if (indicator.getDashboard() != null) {
-            entity.setDashboard(DashboardMapper.toEntity(indicator.getDashboard()));
-        }
-        if (indicator.getColor() != null) {
-            entity.setColor(ColorMapper.toEntity(indicator.getColor()));
+        //entity.setCoordinate(indicator.getCoordinate());
+        if (indicator.getDashboardId() != null) {
+            //entity.setDashboard(DashboardMapper.toEntity(indicator.getDashboardId()));
         }
         // TODO: crear SourceMapper y setear entity.setSource(...) — FK nullable=false, persistir Indicator sin source FALLA
         return entity;
