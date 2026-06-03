@@ -28,11 +28,11 @@ public record CreateIndicatorDTO(
     @NotNull(message = "El id del dashboard es obligatorio")
     UUID dashboardId,
     @NotNull(message = "La fuente es obligatoria")
-    Source source,
+    int sourceId,
     @NotNull(message = "La tabla es obligatoria")
-    String table,
+    int tableId,
     @NotNull(message = "La columna es obligatoria")
-    String column,
+    int columnId,
     @NotNull(message = "La coordenada es obligatoria")
     Coordinate coordinate
 ) {
