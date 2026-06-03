@@ -4,7 +4,6 @@ import com.e6.domain.model.Indicator.Coordinate;
 import com.e6.domain.model.Indicator.Delta;
 import com.e6.domain.model.Indicator.IndicatorType;
 import com.e6.domain.model.Indicator.Operation;
-import com.e6.domain.model.source.Source;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
