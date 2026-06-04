@@ -13,7 +13,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -135,7 +134,12 @@ public class SourceRepositoryImpl implements SourceRepository {
 
             default:
                 throw new IllegalArgumentException(
-                        "Unsupported sourceId: " + sourceId);
+                    "Unsupported sourceId: " + sourceId);
         }
+    }
+
+    @Override
+    public List<Source> getCatalogSources() {
+        return sources;
     }
 }

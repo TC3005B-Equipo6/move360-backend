@@ -1,6 +1,10 @@
 package com.e6.application.usecase.graph;
 
-import com.e6.application.dto.graph.GetGraphResponseDTO;
+import com.e6.application.dto.graph.GraphResponseDTO;
+import com.e6.application.service.DashboardAccessService;
+import com.e6.domain.model.Dashboard;
+import com.e6.domain.model.graph.Graph;
+import com.e6.domain.repository.DashboardRepository;
 import com.e6.domain.repository.GraphRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -8,12 +12,22 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class GetGraphByIdUseCase {
 
     private final GraphRepository graphRepository;
+    private final DashboardRepository dashboardRepository;
+    private final DashboardAccessService dashboardAccessService;
 
-    public GetGraphByIdUseCase(GraphRepository graphRepository) {
+    public GetGraphByIdUseCase(
+            GraphRepository graphRepository,
+            DashboardRepository dashboardRepository,
+            DashboardAccessService dashboardAccessService) {
         this.graphRepository = graphRepository;
+        this.dashboardRepository = dashboardRepository;
+        this.dashboardAccessService = dashboardAccessService;
     }
 
-    public GetGraphResponseDTO execute(int id) {
-        return graphRepository.findGraphById(id);
+    public GraphResponseDTO execute(int id) {
+        Graph graph = graphRepository.findGraphById(id);
+        Dashboard dashboard = dashboardRepository.findDashboardById(graph.getDashboardId());
+        dashboardAccessService.requireReadable(dashboard);
+        return GraphResponseDTO.from(graph);
     }
 }

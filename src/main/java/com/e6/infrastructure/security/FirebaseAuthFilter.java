@@ -46,12 +46,11 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
         boolean isPublic = method.isAnnotationPresent(PermitPublic.class)
                         || resourceClass.isAnnotationPresent(PermitPublic.class);
 
-        if (isPublic) {
-            return;
-        }
-
         String authHeader = requestContext.getHeaders().getFirst("Authorization");
         if(authHeader==null){
+            if (isPublic) {
+                return;
+            }
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED)
                             .entity("No autorizado").build()
@@ -59,6 +58,9 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             return;
         }
         if(!authHeader.startsWith("Bearer ")){
+            if (isPublic) {
+                return;
+            }
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED)
                             .entity("No autorizado").build()
@@ -76,12 +78,18 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                 authContext.setUser(user);
                 return;
             }
+            if (isPublic) {
+                return;
+            }
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED)
                             .entity("No autorizado").build()
             );
 
         } catch (FirebaseAuthException e) {
+            if (isPublic) {
+                return;
+            }
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED)
                             .entity("No autorizado").build()

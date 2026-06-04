@@ -24,8 +24,14 @@ import java.util.UUID;
                 attributeNodes = {
                         @NamedAttributeNode("owner"),
                         @NamedAttributeNode("tags"),
-                        @NamedAttributeNode("graphs"),
+                        @NamedAttributeNode(value = "graphs", subgraph = "graph.series"),
                         @NamedAttributeNode("indicators")
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "graph.series",
+                                attributeNodes = @NamedAttributeNode("series")
+                        )
                 }
         )
 })

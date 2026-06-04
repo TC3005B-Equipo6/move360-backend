@@ -5,6 +5,7 @@ import com.e6.application.dto.dashboard.CreateDashboardResponseDTO;
 import com.e6.application.dto.dashboard.GetDashboardsResponseDTO;
 import com.e6.application.dto.dashboard.GetUserDashboardsResponseDTO;
 import com.e6.domain.model.Dashboard;
+import com.e6.domain.model.DashboardLayoutItem;
 import com.e6.domain.model.User;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface DashboardRepository {
     AddTagResponseDTO addTag(UUID id, int tagId);
 
     void removeTag(UUID id, int tagId);
+
+    Dashboard updateLayout(UUID id, List<DashboardLayoutItem> items);
 }

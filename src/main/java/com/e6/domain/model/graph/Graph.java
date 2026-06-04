@@ -2,20 +2,31 @@ package com.e6.domain.model.graph;
 
 import com.e6.domain.model.Dashboard;
 import com.e6.domain.model.Indicator.Coordinate;
-import com.e6.domain.model.source.Source;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class Graph {
     private int id;
-    private Size size;
+    private UUID dashboardId;
+    private GraphSize size;
     private GraphType type;
-    private Source source;
-    private String query;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Dashboard dashboard;
+    private int sourceId;
+    private int tableId;
+    private String dimensionColumn;
+    private List<String> metricColumns = new ArrayList<>();
+    private GraphOperation operation;
+    private boolean compareEnabled;
+    private Integer compareTableId;
+    private String startMonth;
+    private String endMonth;
     private Coordinate coordinate;
+    private Double delta;
+    private List<Map<String, Object>> data = new ArrayList<>();
+    private List<GraphSeries> series = new ArrayList<>();
+    private String query;
 
     public Graph() {
     }
@@ -24,93 +35,140 @@ public class Graph {
         return new Builder();
     }
 
+    public static Builder from(Graph graph) {
+        return builder()
+                .id(graph.getId())
+                .dashboardId(graph.getDashboardId())
+                .size(graph.getSize())
+                .type(graph.getType())
+                .sourceId(graph.getSourceId())
+                .tableId(graph.getTableId())
+                .dimensionColumn(graph.getDimensionColumn())
+                .metricColumns(graph.getMetricColumns())
+                .operation(graph.getOperation())
+                .compareEnabled(graph.isCompareEnabled())
+                .compareTableId(graph.getCompareTableId())
+                .startMonth(graph.getStartMonth())
+                .endMonth(graph.getEndMonth())
+                .coordinate(graph.getCoordinate())
+                .delta(graph.getDelta())
+                .data(graph.getData())
+                .series(graph.getSeries())
+                .query(graph.getQuery());
+    }
+
     public static class Builder {
-        private int id;
-        private Size size;
-        private GraphType type;
-        private Source source;
-        private String query;
-        private LocalDate startDate;
-        private LocalDate endDate;
-        private Dashboard dashboard;
-        private Coordinate coordinate;
+        private final Graph graph = new Graph();
 
         public Builder id(int id) {
-            this.id = id;
+            graph.id = id;
             return this;
         }
 
-        public Builder size(Size size){
-            this.size = size;
-            return this;
-        }
-
-        public Builder type(GraphType type){
-            this.type = type;
-            return this;
-        }
-
-        public Builder query(String query) {
-            this.query = query;
-            return this;
-        }
-
-        public Builder startDate(LocalDate startDate) {
-            this.startDate = startDate;
-            return this;
-        }
-
-        public Builder endDate(LocalDate endDate) {
-            this.endDate = endDate;
+        public Builder dashboardId(UUID dashboardId) {
+            graph.dashboardId = dashboardId;
             return this;
         }
 
         public Builder dashboard(Dashboard dashboard) {
-            this.dashboard = dashboard;
+            graph.dashboardId = dashboard == null ? null : dashboard.getId();
+            return this;
+        }
+
+        public Builder size(GraphSize size) {
+            graph.size = size;
+            return this;
+        }
+
+        public Builder type(GraphType type) {
+            graph.type = type;
+            return this;
+        }
+
+        public Builder sourceId(int sourceId) {
+            graph.sourceId = sourceId;
+            return this;
+        }
+
+        public Builder tableId(int tableId) {
+            graph.tableId = tableId;
+            return this;
+        }
+
+        public Builder dimensionColumn(String dimensionColumn) {
+            graph.dimensionColumn = dimensionColumn;
+            return this;
+        }
+
+        public Builder metricColumns(List<String> metricColumns) {
+            graph.metricColumns = metricColumns == null ? new ArrayList<>() : new ArrayList<>(metricColumns);
+            return this;
+        }
+
+        public Builder operation(GraphOperation operation) {
+            graph.operation = operation;
+            return this;
+        }
+
+        public Builder compareEnabled(boolean compareEnabled) {
+            graph.compareEnabled = compareEnabled;
+            return this;
+        }
+
+        public Builder compareTableId(Integer compareTableId) {
+            graph.compareTableId = compareTableId;
+            return this;
+        }
+
+        public Builder startMonth(String startMonth) {
+            graph.startMonth = startMonth;
+            return this;
+        }
+
+        public Builder endMonth(String endMonth) {
+            graph.endMonth = endMonth;
             return this;
         }
 
         public Builder coordinate(Coordinate coordinate) {
-            this.coordinate = coordinate;
+            graph.coordinate = coordinate;
             return this;
         }
-        public Builder sources(Source source){
-            this.source = source;
+
+        public Builder delta(Double delta) {
+            graph.delta = delta;
+            return this;
+        }
+
+        public Builder data(List<Map<String, Object>> data) {
+            graph.data = data == null ? new ArrayList<>() : new ArrayList<>(data);
+            return this;
+        }
+
+        public Builder series(List<GraphSeries> series) {
+            graph.series = series == null ? new ArrayList<>() : new ArrayList<>(series);
+            return this;
+        }
+
+        public Builder query(String query) {
+            graph.query = query;
             return this;
         }
 
         public Graph build() {
-            Graph graph = new Graph();
-            graph.id = this.id;
-            graph.size = this.size;
-            graph.type = this.type;
-            graph.source = this.source;
-            graph.query = this.query;
-            graph.startDate = this.startDate;
-            graph.endDate = this.endDate;
-            graph.dashboard = this.dashboard;
-            graph.coordinate = this.coordinate;
             return graph;
         }
-    }
-
-    public Graph(int id, Size size, GraphType type, Source source, String query, LocalDate startDate, LocalDate endDate, Dashboard dashboard, Coordinate coordinate) {
-        this.id = id;
-        this.size = size;
-        this.type = type;
-        this.source = source;
-        this.query = query;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dashboard = dashboard;
-        this.coordinate = coordinate;
     }
 
     public int getId() {
         return id;
     }
 
-    public Size getSize() {
+    public UUID getDashboardId() {
+        return dashboardId;
+    }
+
+    public GraphSize getSize() {
         return size;
     }
 
@@ -118,27 +176,59 @@ public class Graph {
         return type;
     }
 
-    public Source getSource() {
-        return source;
+    public int getSourceId() {
+        return sourceId;
     }
 
-    public String getQuery() {
-        return query;
+    public int getTableId() {
+        return tableId;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public String getDimensionColumn() {
+        return dimensionColumn;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public List<String> getMetricColumns() {
+        return metricColumns;
     }
 
-    public Dashboard getDashboard() {
-        return dashboard;
+    public GraphOperation getOperation() {
+        return operation;
+    }
+
+    public boolean isCompareEnabled() {
+        return compareEnabled;
+    }
+
+    public Integer getCompareTableId() {
+        return compareTableId;
+    }
+
+    public String getStartMonth() {
+        return startMonth;
+    }
+
+    public String getEndMonth() {
+        return endMonth;
     }
 
     public Coordinate getCoordinate() {
         return coordinate;
+    }
+
+    public Double getDelta() {
+        return delta;
+    }
+
+    public List<Map<String, Object>> getData() {
+        return data;
+    }
+
+    public List<GraphSeries> getSeries() {
+        return series;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

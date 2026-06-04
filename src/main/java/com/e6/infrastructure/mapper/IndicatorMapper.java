@@ -39,23 +39,7 @@ public final class IndicatorMapper {
     }
 
     public static Indicator toDomainWithoutDashboard(IndicatorEntity entity) {
-        return Indicator.builder()
-                .id(entity.getId())
-                .title(entity.getTitle())
-                //.subtitle(entity.getSubtitle())
-                //.type(entity.getType())
-                //.data(entity.getData())
-                //.delta(entity.getDelta())
-                //.deltaData(entity.getDeltaData())
-                //.operation(entity.getOperation())
-                .startDate(entity.getStartDate())
-                .endDate(entity.getEndDate())
-                .query(entity.getQuery())
-                .dashboard(entity.getDashboard().getId())
-                //.coordinate(entity.getCoordinate())
-                //.source(entity.getSource())
-                .build();
-        // TODO: crear SourceMapper y mapear entity.getSource() -> indicator.setSource(...)
+        return toDomain(entity);
     }
 
     public static Set<Indicator> toDomainSetWithoutDashboard(Set<IndicatorEntity> entities) {
