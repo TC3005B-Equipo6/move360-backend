@@ -117,7 +117,7 @@ public final class GraphMapper {
         }
         return entities.stream()
                 .map(entity -> new GraphSeries(
-                        entity.getId(),
+                        entity.getId() == null ? 0 : entity.getId(),
                         entity.getSeriesKey(),
                         entity.getLabel(),
                         entity.getColor(),

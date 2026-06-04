@@ -2,6 +2,7 @@ package com.e6.application.usecase.indicator;
 
 import com.e6.application.dto.indicator.CreateIndicatorDTO;
 import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
+import com.e6.application.dto.indicator.IndicatorFiltersDTO;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.source.Metadata;
 import com.e6.domain.repository.IndicatorRepository;
@@ -27,12 +28,15 @@ public class CreateIndicatorUseCase {
     public CreateIndicatorResponseDTO execute(CreateIndicatorDTO createIndicatorDTO){
         try {
             ObjectMapper mapper = new ObjectMapper();
+            IndicatorFiltersDTO filters = createIndicatorDTO.filters() == null
+                    ? IndicatorFiltersDTO.empty()
+                    : createIndicatorDTO.filters();
 
             Metadata metadata = sourceRepository.getMetadata(
                     createIndicatorDTO.sourceId(),
                     createIndicatorDTO.tableId(),
                     createIndicatorDTO.columnId(),
-                    createIndicatorDTO.filters());
+                    filters);
 
             Double data = indicatorRepository.aggregate(
                     createIndicatorDTO.sourceId() == 1,
@@ -71,6 +75,9 @@ public class CreateIndicatorUseCase {
                     .dashboard(createIndicatorDTO.dashboardId())
                     .coordinate(createIndicatorDTO.coordinate())
                     .source(createIndicatorDTO.sourceId())
+                    .table(createIndicatorDTO.tableId())
+                    .column(createIndicatorDTO.sourceId() == 0 ? createIndicatorDTO.columnId() : null)
+                    .filters(filters.toDomain())
                     .build();
 
             indicator = indicatorRepository.createIndicator(indicator);

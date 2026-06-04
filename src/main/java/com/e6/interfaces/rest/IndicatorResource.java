@@ -1,6 +1,7 @@
 package com.e6.interfaces.rest;
 
 import com.e6.application.dto.indicator.CreateIndicatorDTO;
+import com.e6.application.dto.indicator.GetIndicatorResponseDTO;
 import com.e6.application.dto.indicator.UpdateIndicatorDTO;
 import com.e6.application.usecase.indicator.CreateIndicatorUseCase;
 import com.e6.application.usecase.indicator.DeleteIndicatorByIdUseCase;
@@ -37,7 +38,7 @@ public class IndicatorResource {
     @Path("/{id}")
     public Response getIndicator(@PathParam("id") int id) {
         try {
-            return Response.status(Response.Status.CREATED).entity(getIndicatorByIdUseCase.execute(id)).build();
+            return Response.ok().entity(GetIndicatorResponseDTO.from(getIndicatorByIdUseCase.execute(id))).build();
         } catch (IndicatorNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }

@@ -1,6 +1,7 @@
 package com.e6.application.dto.dashboard;
 
 import com.e6.application.dto.graph.GraphResponseDTO;
+import com.e6.application.dto.indicator.IndicatorFiltersDTO;
 import com.e6.domain.model.Dashboard;
 import com.e6.domain.model.DashboardItemKind;
 import com.e6.domain.model.Indicator.Coordinate;
@@ -148,7 +149,10 @@ public record DashboardDetailResponseDTO(
             Operation operation,
             LocalDate startDate,
             LocalDate endDate,
-            int sourceId
+            int sourceId,
+            int tableId,
+            Integer columnId,
+            IndicatorFiltersDTO filters
     ) {
         static IndicatorItemDTO from(Indicator indicator) {
             return new IndicatorItemDTO(
@@ -160,7 +164,10 @@ public record DashboardDetailResponseDTO(
                     indicator.getOperation(),
                     indicator.getStartDate(),
                     indicator.getEndDate(),
-                    indicator.getSourceId()
+                    indicator.getSourceId(),
+                    indicator.getTableId(),
+                    indicator.getColumnId(),
+                    IndicatorFiltersDTO.from(indicator.getFilters())
             );
         }
     }

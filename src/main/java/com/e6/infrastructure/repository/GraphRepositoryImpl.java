@@ -93,6 +93,7 @@ public class GraphRepositoryImpl implements GraphRepository, PanacheRepositoryBa
         GraphEntity entity = GraphMapper.toEntity(graph);
         entity.setDashboard(dashboard);
         persist(entity);
+        flush();
         return GraphMapper.toDomain(entity);
     }
 
@@ -115,6 +116,7 @@ public class GraphRepositoryImpl implements GraphRepository, PanacheRepositoryBa
         GraphEntity entity = findByIdOptional(graph.getId())
                 .orElseThrow(() -> new GraphNotFoundException(String.valueOf(graph.getId())));
         GraphMapper.copyToEntity(graph, entity);
+        flush();
         return GraphMapper.toDomain(entity);
     }
 

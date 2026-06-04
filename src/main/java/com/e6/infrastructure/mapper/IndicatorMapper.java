@@ -1,6 +1,7 @@
 package com.e6.infrastructure.mapper;
 
 import com.e6.domain.model.Indicator.Coordinate;
+import com.e6.domain.model.Indicator.IndicatorFilterSelection;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.infrastructure.entity.IndicatorEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,9 @@ public final class IndicatorMapper {
     public static Indicator toDomain(IndicatorEntity entity) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            IndicatorFilterSelection filters = entity.getFilters() == null
+                    ? IndicatorFilterSelection.empty()
+                    : mapper.readValue(entity.getFilters(), IndicatorFilterSelection.class);
 
             return Indicator.builder()
                     .id(entity.getId())
@@ -32,6 +36,9 @@ public final class IndicatorMapper {
                                     entity.getCoordinate(),
                                     Coordinate.class))
                     .source(entity.getSourceId())
+                    .table(entity.getTableId())
+                    .column(entity.getColumnId())
+                    .filters(filters)
                     .build();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -61,6 +68,9 @@ public final class IndicatorMapper {
             entity.setSubtitle(indicator.getSubtitle());
             entity.setCoordinate(mapper.writeValueAsString(indicator.getCoordinate()));
             entity.setSourceId(indicator.getSourceId());
+            entity.setTableId(indicator.getTableId());
+            entity.setColumnId(indicator.getColumnId());
+            entity.setFilters(mapper.writeValueAsString(indicator.getFilters()));
             entity.setType(indicator.getType());
             entity.setData(indicator.getData());
             entity.setDeltaData(indicator.getDeltaData());

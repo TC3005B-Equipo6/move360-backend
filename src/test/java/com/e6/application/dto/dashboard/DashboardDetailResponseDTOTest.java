@@ -5,6 +5,7 @@ import com.e6.domain.model.DashboardItemKind;
 import com.e6.domain.model.Role;
 import com.e6.domain.model.User;
 import com.e6.domain.model.Indicator.Coordinate;
+import com.e6.domain.model.Indicator.IndicatorFilterSelection;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.Indicator.IndicatorType;
 import com.e6.domain.model.Indicator.Operation;
@@ -43,6 +44,9 @@ class DashboardDetailResponseDTOTest {
                 .endDate(LocalDate.of(2026, 1, 31))
                 .coordinate(new Coordinate(1, 2))
                 .source(0)
+                .table(3)
+                .column(4)
+                .filters(new IndicatorFilterSelection(new int[] { 1 }, new String[] { "Linea 1" }))
                 .dashboard(dashboardId)
                 .build();
 
@@ -80,5 +84,16 @@ class DashboardDetailResponseDTOTest {
                 item.kind() == DashboardItemKind.INDICATOR && item.itemId().equals("indicator:2")));
         assertTrue(response.items().stream().anyMatch(item ->
                 item.kind() == DashboardItemKind.GRAPH && item.itemId().equals("graph:5")));
+
+        DashboardDetailResponseDTO.IndicatorItemDTO indicatorItem = response.items().stream()
+                .filter(item -> item.kind() == DashboardItemKind.INDICATOR)
+                .findFirst()
+                .orElseThrow()
+                .indicator();
+
+        assertEquals(3, indicatorItem.tableId());
+        assertEquals(4, indicatorItem.columnId());
+        assertEquals(1, indicatorItem.filters().ids()[0]);
+        assertEquals("Linea 1", indicatorItem.filters().values()[0]);
     }
 }

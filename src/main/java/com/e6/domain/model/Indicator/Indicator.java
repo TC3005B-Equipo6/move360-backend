@@ -18,6 +18,9 @@ public class Indicator {
     private UUID dashboardId;
     private Coordinate coordinate;
     private int sourceId;
+    private int tableId;
+    private Integer columnId;
+    private IndicatorFilterSelection filters = IndicatorFilterSelection.empty();
 
     public Indicator() {}
 
@@ -40,6 +43,9 @@ public class Indicator {
         private UUID dashboardId;
         private Coordinate coordinate;
         private int sourceId;
+        private int tableId;
+        private Integer columnId;
+        private IndicatorFilterSelection filters = IndicatorFilterSelection.empty();
 
         public Builder id(int id){
             this.id = id;
@@ -111,6 +117,21 @@ public class Indicator {
             return this;
         }
 
+        public Builder table(int tableId){
+            this.tableId = tableId;
+            return this;
+        }
+
+        public Builder column(Integer columnId){
+            this.columnId = columnId;
+            return this;
+        }
+
+        public Builder filters(IndicatorFilterSelection filters){
+            this.filters = filters == null ? IndicatorFilterSelection.empty() : filters;
+            return this;
+        }
+
         public Indicator build(){
             Indicator indicator = new Indicator();
             indicator.id = this.id;
@@ -127,11 +148,14 @@ public class Indicator {
             indicator.dashboardId = this.dashboardId;
             indicator.coordinate = this.coordinate;
             indicator.sourceId = this.sourceId;
+            indicator.tableId = this.tableId;
+            indicator.columnId = this.columnId;
+            indicator.filters = this.filters;
             return indicator;
         }
     }
 
-    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Relationship relationship, Double deltaData, Operation operation, LocalDate startDate, LocalDate endDate, String query, UUID dashboardId, Coordinate coordinate, int sourceId) {
+    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Relationship relationship, Double deltaData, Operation operation, LocalDate startDate, LocalDate endDate, String query, UUID dashboardId, Coordinate coordinate, int sourceId, int tableId, Integer columnId, IndicatorFilterSelection filters) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -146,6 +170,9 @@ public class Indicator {
         this.dashboardId = dashboardId;
         this.coordinate = coordinate;
         this.sourceId = sourceId;
+        this.tableId = tableId;
+        this.columnId = columnId;
+        this.filters = filters == null ? IndicatorFilterSelection.empty() : filters;
     }
 
     public int getId() {
@@ -258,5 +285,29 @@ public class Indicator {
 
     public void setSourceId(int sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
+    }
+
+    public Integer getColumnId() {
+        return columnId;
+    }
+
+    public void setColumnId(Integer columnId) {
+        this.columnId = columnId;
+    }
+
+    public IndicatorFilterSelection getFilters() {
+        return filters == null ? IndicatorFilterSelection.empty() : filters;
+    }
+
+    public void setFilters(IndicatorFilterSelection filters) {
+        this.filters = filters == null ? IndicatorFilterSelection.empty() : filters;
     }
 }

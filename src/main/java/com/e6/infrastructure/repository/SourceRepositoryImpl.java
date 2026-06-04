@@ -98,6 +98,7 @@ public class SourceRepositoryImpl implements SourceRepository {
 
         var source = sources.get(sourceId);
         var table = source.tables().get(tableId);
+        IndicatorFiltersDTO filters = filtersDto == null ? IndicatorFiltersDTO.empty() : filtersDto;
 
         switch (sourceId) {
 
@@ -112,17 +113,12 @@ public class SourceRepositoryImpl implements SourceRepository {
 
             case 1:
 
-                if (filtersDto.ids().length != filtersDto.values().length) {
-                    throw new IllegalArgumentException(
-                            "Filter ids and values must have the same length");
-                }
-
                 Set<FilterMetadata> resolvedFilters =
-                        IntStream.range(0, filtersDto.ids().length)
+                        IntStream.range(0, filters.ids().length)
                                 .mapToObj(i -> {
 
-                                    int filterId = filtersDto.ids()[i];
-                                    String value = filtersDto.values()[i];
+                                    int filterId = filters.ids()[i];
+                                    String value = filters.values()[i];
 
                                     var filter = table.filters()
                                             .stream()

@@ -39,6 +39,16 @@ import java.time.LocalDate;
         @Column(name = "source_id", nullable = false)
         private int sourceId;
 
+        @Column(name = "table_id")
+        private Integer tableId;
+
+        @Column(name = "column_id")
+        private Integer columnId;
+
+        @Column
+        @JdbcTypeCode(SqlTypes.JSON)
+        private String filters;
+
         @Column( nullable = false)
         private IndicatorType type;
 
@@ -122,6 +132,30 @@ import java.time.LocalDate;
 
         public void setSourceId(int sourceId) {
             this.sourceId = sourceId;
+        }
+
+        public int getTableId() {
+            return tableId == null ? 0 : tableId;
+        }
+
+        public void setTableId(int tableId) {
+            this.tableId = tableId;
+        }
+
+        public Integer getColumnId() {
+            return columnId;
+        }
+
+        public void setColumnId(Integer columnId) {
+            this.columnId = columnId;
+        }
+
+        public String getFilters() {
+            return filters;
+        }
+
+        public void setFilters(String filters) {
+            this.filters = filters;
         }
 
         public IndicatorType getType() {
