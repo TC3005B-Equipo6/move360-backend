@@ -34,6 +34,8 @@ public class UpdateGraphUseCase {
         dashboardAccessService.requireOwner(dashboard);
 
         Graph patched = Graph.from(existing)
+                .title(updateGraphDTO.title() == null ? existing.getTitle() : updateGraphDTO.title())
+                .subtitle(updateGraphDTO.subtitle() == null ? existing.getSubtitle() : updateGraphDTO.subtitle())
                 .size(updateGraphDTO.size() == null ? existing.getSize() : updateGraphDTO.size())
                 .type(updateGraphDTO.type() == null ? existing.getType() : updateGraphDTO.type())
                 .sourceId(updateGraphDTO.sourceId() == null ? existing.getSourceId() : updateGraphDTO.sourceId())

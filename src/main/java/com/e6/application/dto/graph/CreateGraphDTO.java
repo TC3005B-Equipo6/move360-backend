@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public record CreateGraphDTO(
         @NotNull UUID dashboardId,
+        @NotNull String title,
+        String subtitle,
         @NotNull GraphSize size,
         @NotNull GraphType type,
         @NotNull Integer sourceId,

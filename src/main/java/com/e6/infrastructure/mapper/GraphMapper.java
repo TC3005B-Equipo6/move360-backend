@@ -31,6 +31,8 @@ public final class GraphMapper {
         return Graph.builder()
                 .id(entity.getId())
                 .dashboardId(entity.getDashboard().getId())
+                .title(entity.getTitle())
+                .subtitle(entity.getSubtitle())
                 .size(entity.getSize())
                 .type(entity.getType())
                 .sourceId(entity.getSourceId())
@@ -75,6 +77,8 @@ public final class GraphMapper {
         if (graph.getId() != 0) {
             entity.setId(graph.getId());
         }
+        entity.setTitle(graph.getTitle());
+        entity.setSubtitle(graph.getSubtitle());
         entity.setSize(graph.getSize());
         entity.setType(graph.getType());
         entity.setSourceId(graph.getSourceId());

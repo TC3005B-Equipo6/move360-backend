@@ -40,6 +40,8 @@ class UpdateGraphUseCaseTest {
                 null,
                 null,
                 null,
+                null,
+                null,
                 new com.e6.domain.model.Indicator.Coordinate(9, 9)));
 
         assertEquals(0, fixture.graphRepository.snapshotCalls);
@@ -52,6 +54,8 @@ class UpdateGraphUseCaseTest {
         UpdateGraphUseCase useCase = fixture.useCase();
 
         useCase.execute(1, new UpdateGraphDTO(
+                null,
+                null,
                 null,
                 null,
                 null,

@@ -41,6 +41,11 @@ public class GraphEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String title;
+
+    @Column(nullable = true)
+    private String subtitle;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private GraphSize size;
@@ -113,6 +118,22 @@ public class GraphEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public GraphSize getSize() {

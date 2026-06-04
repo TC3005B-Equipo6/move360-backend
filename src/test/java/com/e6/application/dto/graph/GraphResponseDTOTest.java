@@ -22,6 +22,8 @@ class GraphResponseDTOTest {
         Graph graph = Graph.builder()
                 .id(12)
                 .dashboardId(dashboardId)
+                .title("Pasajeros por mes")
+                .subtitle("Línea 1")
                 .size(GraphSize.CHART_MD)
                 .type(GraphType.BAR)
                 .sourceId(0)
@@ -49,6 +51,8 @@ class GraphResponseDTOTest {
         assertEquals("graph:12", response.itemId());
         assertEquals(12, response.id());
         assertEquals(dashboardId, response.dashboardId());
+        assertEquals("Pasajeros por mes", response.title());
+        assertEquals("Línea 1", response.subtitle());
         assertEquals(GraphSize.CHART_MD, response.size());
         assertEquals(GraphType.BAR, response.type());
         assertEquals(List.of("passengers"), response.metricColumns());

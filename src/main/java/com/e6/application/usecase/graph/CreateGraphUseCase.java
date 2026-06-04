@@ -32,6 +32,8 @@ public class CreateGraphUseCase {
 
         Graph graph = Graph.builder()
                 .dashboardId(createGraphDTO.dashboardId())
+                .title(createGraphDTO.title())
+                .subtitle(createGraphDTO.subtitle())
                 .size(createGraphDTO.size())
                 .type(createGraphDTO.type())
                 .sourceId(createGraphDTO.sourceId())

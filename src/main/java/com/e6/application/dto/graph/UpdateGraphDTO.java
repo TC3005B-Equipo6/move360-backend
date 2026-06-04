@@ -8,6 +8,8 @@ import com.e6.domain.model.graph.GraphType;
 import java.util.List;
 
 public record UpdateGraphDTO(
+        String title,
+        String subtitle,
         GraphSize size,
         GraphType type,
         Integer sourceId,

@@ -11,6 +11,8 @@ import java.util.UUID;
 public class Graph {
     private int id;
     private UUID dashboardId;
+    private String title;
+    private String subtitle;
     private GraphSize size;
     private GraphType type;
     private int sourceId;
@@ -39,6 +41,8 @@ public class Graph {
         return builder()
                 .id(graph.getId())
                 .dashboardId(graph.getDashboardId())
+                .title(graph.getTitle())
+                .subtitle(graph.getSubtitle())
                 .size(graph.getSize())
                 .type(graph.getType())
                 .sourceId(graph.getSourceId())
@@ -67,6 +71,16 @@ public class Graph {
 
         public Builder dashboardId(UUID dashboardId) {
             graph.dashboardId = dashboardId;
+            return this;
+        }
+
+        public Builder title(String title) {
+            graph.title = title;
+            return this;
+        }
+
+        public Builder subtitle(String subtitle) {
+            graph.subtitle = subtitle;
             return this;
         }
 
@@ -166,6 +180,14 @@ public class Graph {
 
     public UUID getDashboardId() {
         return dashboardId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
     }
 
     public GraphSize getSize() {

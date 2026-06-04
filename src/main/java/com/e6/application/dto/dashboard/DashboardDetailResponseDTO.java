@@ -102,6 +102,8 @@ public record DashboardDetailResponseDTO(
     }
 
     public record GraphItemDTO(
+            String title,
+            String subtitle,
             GraphSize size,
             int sourceId,
             int tableId,
@@ -118,6 +120,8 @@ public record DashboardDetailResponseDTO(
     ) {
         static GraphItemDTO from(Graph graph) {
             return new GraphItemDTO(
+                    graph.getTitle(),
+                    graph.getSubtitle(),
                     graph.getSize(),
                     graph.getSourceId(),
                     graph.getTableId(),
