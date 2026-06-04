@@ -1,5 +1,8 @@
 package com.e6.infrastructure.entity;
 
+import com.e6.domain.model.Indicator.IndicatorType;
+import com.e6.domain.model.Indicator.Operation;
+import com.e6.domain.model.Indicator.Relationship;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -27,11 +30,29 @@ import java.time.LocalDate;
         @Column(nullable = false)
         private String title;
 
+        @Column(nullable = true)
+        private String subtitle;
+
         @Column(nullable = false, length = 50)
         private String coordinate;
 
-        @Column(nullable = false)
+        @Column(name = "source_id", nullable = false)
         private int sourceId;
+
+        @Column( nullable = false)
+        private IndicatorType type;
+
+        @Column(nullable = false)
+        private Double data;
+
+        @Column(nullable = false)
+        private Double deltaData;
+
+        @Column(nullable = false)
+        private Relationship relationship;
+
+        @Column(nullable = false)
+        private Operation operation;
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "dashboard_id", nullable = false)
@@ -39,64 +60,116 @@ import java.time.LocalDate;
 
     public IndicatorEntity() {}
 
-    public Integer getId() {
-        return id;
-    }
+        public Integer getId() {
+            return id;
+        }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+        public void setId(Integer id) {
+            this.id = id;
+        }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+        public LocalDate getStartDate() {
+            return startDate;
+        }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+        public void setStartDate(LocalDate startDate) {
+            this.startDate = startDate;
+        }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
+        public LocalDate getEndDate() {
+            return endDate;
+        }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+        public void setEndDate(LocalDate endDate) {
+            this.endDate = endDate;
+        }
 
-    public String getQuery() {
-        return query;
-    }
+        public String getQuery() {
+            return query;
+        }
 
-    public void setQuery(String query) {
-        this.query = query;
-    }
+        public void setQuery(String query) {
+            this.query = query;
+        }
 
-    public String getTitle() {
-        return title;
-    }
+        public String getTitle() {
+            return title;
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
+        public String getSubtitle() {
+            return subtitle;
+        }
 
-    public int getSource() {
-        return sourceId;
-    }
+        public void setSubtitle(String subtitle) {
+            this.subtitle = subtitle;
+        }
 
-    public void setSource(int sourceId) {
-        this.sourceId = sourceId;
-    }
+        public String getCoordinate() {
+            return coordinate;
+        }
 
-    public DashboardEntity getDashboard() {
-        return dashboard;
-    }
+        public void setCoordinate(String coordinate) {
+            this.coordinate = coordinate;
+        }
 
-    public void setDashboard(DashboardEntity dashboard) {
-        this.dashboard = dashboard;
+        public int getSourceId() {
+            return sourceId;
+        }
+
+        public void setSourceId(int sourceId) {
+            this.sourceId = sourceId;
+        }
+
+        public IndicatorType getType() {
+            return type;
+        }
+
+        public void setType(IndicatorType type) {
+            this.type = type;
+        }
+
+        public Double getData() {
+            return data;
+        }
+
+        public void setData(Double data) {
+            this.data = data;
+        }
+
+        public Double getDeltaData() {
+            return deltaData;
+        }
+
+        public void setDeltaData(Double deltaData) {
+            this.deltaData = deltaData;
+        }
+
+        public Relationship getRelationship() {
+            return relationship;
+        }
+
+        public void setRelationship(Relationship relationship) {
+            this.relationship = relationship;
+        }
+
+        public Operation getOperation() {
+            return operation;
+        }
+
+        public void setOperation(Operation operation) {
+            this.operation = operation;
+        }
+
+        public DashboardEntity getDashboard() {
+            return dashboard;
+        }
+
+        public void setDashboard(DashboardEntity dashboard) {
+            this.dashboard = dashboard;
+        }
     }
-}
 

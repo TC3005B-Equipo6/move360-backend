@@ -1,7 +1,5 @@
 package com.e6.domain.model.Indicator;
 
-import com.e6.domain.model.source.Source;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -68,7 +66,7 @@ public class Indicator {
             return this;
         }
 
-        public Builder delta(Relationship relationship){
+        public Builder relationship(Relationship relationship){
             this.relationship = relationship;
             return this;
         }
@@ -154,55 +152,111 @@ public class Indicator {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getSubtitle() {
         return subtitle;
     }
 
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
     public IndicatorType getType() {
         return type;
+    }
+
+    public void setType(IndicatorType type) {
+        this.type = type;
     }
 
     public Double getData() {
         return data;
     }
 
-    public Relationship getDelta() {
+    public void setData(Double data) {
+        this.data = data;
+    }
+
+    public Relationship getRelationship() {
         return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
     }
 
     public Double getDeltaData() {
         return deltaData;
     }
 
+    public void setDeltaData(Double deltaData) {
+        this.deltaData = deltaData;
+    }
+
     public Operation getOperation() {
         return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 
     public LocalDate getStartDate() {
         return startDate;
     }
 
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getQuery() {
         return query;
     }
 
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
     public UUID getDashboardId() {
         return dashboardId;
+    }
+
+    public void setDashboardId(UUID dashboardId) {
+        this.dashboardId = dashboardId;
     }
 
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public int getSourceId() {
         return sourceId;
+    }
+
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
     }
 }

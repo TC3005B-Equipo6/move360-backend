@@ -15,7 +15,7 @@ public class StatusResource {
 
     @GET
     public Response status(){
-        return Response.ok(Operation.AVERAGE.toString()).build();
+        return Response.ok("MOVE360").build();
     }
 
 }

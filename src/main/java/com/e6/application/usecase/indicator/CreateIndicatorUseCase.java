@@ -59,26 +59,33 @@ public class CreateIndicatorUseCase {
             );
 
             Indicator indicator = Indicator.builder()
-                    .startDate(createIndicatorDTO.startDate())
-                    .endDate(createIndicatorDTO.endDate())
                     .title(createIndicatorDTO.title())
                     .subtitle(createIndicatorDTO.subtitle())
-                    .coordinate(createIndicatorDTO.coordinate())
+                    .type(createIndicatorDTO.type())
+                    .data(data)
+                    .relationship(createIndicatorDTO.relationship())
+                    .deltaData(deltaData)
+                    .operation(createIndicatorDTO.operation())
+                    .startDate(createIndicatorDTO.startDate())
+                    .endDate(createIndicatorDTO.endDate())
                     .query(mapper.writeValueAsString(metadata))
                     .dashboard(createIndicatorDTO.dashboardId())
+                    .coordinate(createIndicatorDTO.coordinate())
                     .source(createIndicatorDTO.sourceId())
                     .build();
 
             indicator = indicatorRepository.createIndicator(indicator);
 
+            System.out.println("indicator terminado");
+
             return new CreateIndicatorResponseDTO(
                     indicator.getId(),
-                    createIndicatorDTO.title(),
-                    createIndicatorDTO.subtitle(),
-                    createIndicatorDTO.type(),
-                    createIndicatorDTO.relationship(),
-                    deltaData,
-                    data
+                    indicator.getTitle(),
+                    indicator.getSubtitle(),
+                    indicator.getType(),
+                    indicator.getRelationship(),
+                    indicator.getDeltaData(),
+                    indicator.getData()
             );
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
