@@ -2,17 +2,25 @@ package com.e6.infrastructure.repository;
 
 import com.e6.application.dto.indicator.GetIndicatorResponseDTO;
 import com.e6.application.dto.indicator.UpdateIndicatorResponseDTO;
+import com.e6.domain.exception.ColorNotFoundException;
+import com.e6.domain.exception.DashboardNotFoundException;
+import com.e6.domain.exception.IndicatorNotFoundException;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.Indicator.Operation;
 import com.e6.domain.model.source.FilterMetadata;
 import com.e6.domain.repository.IndicatorRepository;
+import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
+import com.e6.infrastructure.entity.TagEntity;
+import com.e6.infrastructure.mapper.ColorMapper;
+import com.e6.infrastructure.mapper.DashboardMapper;
 import com.e6.infrastructure.mapper.IndicatorMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @ApplicationScoped
@@ -88,24 +96,36 @@ public class IndicatorRepositoryImpl implements IndicatorRepository, PanacheRepo
     }
 
     @Override
+    @Transactional
     public Indicator createIndicator(Indicator indicator) {
-        IndicatorEntity entity = IndicatorMapper.toEntity(indicator);
-        persist(entity);
-        return IndicatorMapper.toDomain(entity);
+        try {
+            IndicatorEntity entity = IndicatorMapper.toEntity(indicator);
+            DashboardEntity dashboardReference = getEntityManager().getReference(DashboardEntity.class, indicator.getDashboardId());
+            entity.setDashboard(dashboardReference);
+            persist(entity);
+            return IndicatorMapper.toDomain(entity);
+        } catch (EntityNotFoundException e) {
+            throw new DashboardNotFoundException(indicator.getDashboardId().toString());
+        }
     }
 
     @Override
-    public GetIndicatorResponseDTO findIndicatorById(int id) {
-        return null;
+    public Indicator findIndicatorById(int id) {
+        return IndicatorMapper.toDomain(findByIdOptional(id)
+                .orElseThrow(() -> new IndicatorNotFoundException(String.valueOf(id))));
     }
 
     @Override
+    @Transactional
     public UpdateIndicatorResponseDTO updateIndicator(Indicator indicator) {
         return null;
     }
 
     @Override
+    @Transactional
     public void deleteIndicatorById(int id) {
-
+        boolean deleted = deleteById(id);
+        if (!deleted)
+            throw new DashboardNotFoundException(String.valueOf(id));
     }
 }

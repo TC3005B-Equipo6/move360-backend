@@ -14,8 +14,7 @@ import java.util.Set;
         @NamedEntityGraph(
                 name = "Graph.full",
                 attributeNodes = {
-                        @NamedAttributeNode("dashboard"),
-                        @NamedAttributeNode("sources")
+                        @NamedAttributeNode("dashboard")
                 }
         )
 )
@@ -41,14 +40,6 @@ public class GraphEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "dashboard_id", nullable = false)
     private DashboardEntity dashboard;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "graph_source",
-            joinColumns = @JoinColumn(name = "graph_id"),
-            inverseJoinColumns = @JoinColumn(name = "source_id")
-    )
-    private Set<SourceEntity> sources = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -98,11 +89,4 @@ public class GraphEntity {
         this.dashboard = dashboard;
     }
 
-    public Set<SourceEntity> getSources() {
-        return sources;
-    }
-
-    public void setSources(Set<SourceEntity> sources) {
-        this.sources = sources;
-    }
 }

@@ -19,7 +19,7 @@ public class Indicator {
     private String query;
     private UUID dashboardId;
     private Coordinate coordinate;
-    private Source source;
+    private int sourceId;
 
     public Indicator() {}
 
@@ -41,7 +41,7 @@ public class Indicator {
         private String query;
         private UUID dashboardId;
         private Coordinate coordinate;
-        private Source source;
+        private int sourceId;
 
         public Builder id(int id){
             this.id = id;
@@ -108,8 +108,8 @@ public class Indicator {
             return this;
         }
 
-        public Builder source(Source source){
-            this.source = source;
+        public Builder source(int sourceId){
+            this.sourceId = sourceId;
             return this;
         }
 
@@ -128,12 +128,12 @@ public class Indicator {
             indicator.query = this.query;
             indicator.dashboardId = this.dashboardId;
             indicator.coordinate = this.coordinate;
-            indicator.source = this.source;
+            indicator.sourceId = this.sourceId;
             return indicator;
         }
     }
 
-    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Relationship relationship, Double deltaData, Operation operation, LocalDate startDate, LocalDate endDate, String query, UUID dashboardId, Coordinate coordinate, Source source) {
+    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Relationship relationship, Double deltaData, Operation operation, LocalDate startDate, LocalDate endDate, String query, UUID dashboardId, Coordinate coordinate, int sourceId) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -147,7 +147,7 @@ public class Indicator {
         this.query = query;
         this.dashboardId = dashboardId;
         this.coordinate = coordinate;
-        this.source = source;
+        this.sourceId = sourceId;
     }
 
     public int getId() {
@@ -202,7 +202,7 @@ public class Indicator {
         return coordinate;
     }
 
-    public Source getSource() {
-        return source;
+    public int getSourceId() {
+        return sourceId;
     }
 }

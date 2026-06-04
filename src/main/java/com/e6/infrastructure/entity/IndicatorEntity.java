@@ -5,43 +5,37 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "indicator")
-public class IndicatorEntity {
+    @Entity
+    @Table(name = "indicator")
+    public class IndicatorEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
 
-    @Column(name = "start_date", nullable = false)
-    private LocalDate startDate;
+        @Column(name = "start_date", nullable = false)
+        private LocalDate startDate;
 
-    @Column(name = "end_date", nullable = false)
-    private LocalDate endDate;
+        @Column(name = "end_date", nullable = false)
+        private LocalDate endDate;
 
-    @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.JSON)
-    private String query;
+        @Column(nullable = false)
+        @JdbcTypeCode(SqlTypes.JSON)
+        private String query;
 
-    @Column(nullable = false)
-    private String title;
+        @Column(nullable = false)
+        private String title;
 
-    @Column(nullable = false, length = 50)
-    private String coordinate;
+        @Column(nullable = false, length = 50)
+        private String coordinate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "source_id", nullable = false)
-    private SourceEntity source;
+        @Column(nullable = false)
+        private int sourceId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "dashboard_id", nullable = false)
-    private DashboardEntity dashboard;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "color_id", nullable = false)
-    private ColorEntity color;
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
+        @JoinColumn(name = "dashboard_id", nullable = false)
+        private DashboardEntity dashboard;
 
     public IndicatorEntity() {}
 
@@ -85,20 +79,16 @@ public class IndicatorEntity {
         this.title = title;
     }
 
-    public String getCoordinate() {
-        return coordinate;
-    }
-
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
     }
 
-    public SourceEntity getSource() {
-        return source;
+    public int getSource() {
+        return sourceId;
     }
 
-    public void setSource(SourceEntity source) {
-        this.source = source;
+    public void setSource(int sourceId) {
+        this.sourceId = sourceId;
     }
 
     public DashboardEntity getDashboard() {
@@ -107,14 +97,6 @@ public class IndicatorEntity {
 
     public void setDashboard(DashboardEntity dashboard) {
         this.dashboard = dashboard;
-    }
-
-    public ColorEntity getColor() {
-        return color;
-    }
-
-    public void setColor(ColorEntity color) {
-        this.color = color;
     }
 }
 

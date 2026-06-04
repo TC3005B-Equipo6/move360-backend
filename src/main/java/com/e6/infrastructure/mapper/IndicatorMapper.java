@@ -1,7 +1,9 @@
 package com.e6.infrastructure.mapper;
 
 import com.e6.domain.model.Indicator.Indicator;
+import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
+import com.e6.infrastructure.entity.TagEntity;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,10 +66,7 @@ public final class IndicatorMapper {
         entity.setQuery(indicator.getQuery());
         entity.setTitle(indicator.getTitle());
         entity.setCoordinate(indicator.getCoordinate().toString());
-        if (indicator.getDashboardId() != null) {
-            //entity.setDashboard(DashboardMapper.toEntity(indicator.getDashboardId()));
-        }
-        // TODO: crear SourceMapper y setear entity.setSource(...) — FK nullable=false, persistir Indicator sin source FALLA
+        entity.setSource(indicator.getSourceId());
         return entity;
     }
 

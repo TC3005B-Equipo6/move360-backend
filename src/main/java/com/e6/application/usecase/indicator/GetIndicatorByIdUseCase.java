@@ -1,6 +1,6 @@
 package com.e6.application.usecase.indicator;
 
-import com.e6.application.dto.indicator.GetIndicatorResponseDTO;
+import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.repository.IndicatorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -13,7 +13,7 @@ public class GetIndicatorByIdUseCase {
         this.indicatorRepository = indicatorRepository;
     }
 
-    public GetIndicatorResponseDTO execute(int id){
+    public Indicator execute(int id){
         return indicatorRepository.findIndicatorById(id);
     }
 }

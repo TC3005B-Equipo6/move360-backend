@@ -129,7 +129,7 @@ public class SourceRepositoryImpl implements SourceRepository {
 
                 return new Metadata(
                         table.tableName(),
-                        "afluencia",
+                        "passengers",
                         resolvedFilters
                 );
 
