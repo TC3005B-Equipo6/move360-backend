@@ -11,7 +11,6 @@ import com.e6.domain.model.graph.GraphSize;
 import com.e6.domain.model.graph.GraphSnapshot;
 import com.e6.domain.model.graph.GraphType;
 import com.e6.domain.repository.DashboardRepository;
-import com.e6.domain.repository.GraphDataQuery;
 import com.e6.domain.repository.GraphRepository;
 import com.e6.infrastructure.security.AuthContext;
 import org.junit.jupiter.api.Test;
@@ -43,7 +42,7 @@ class UpdateGraphUseCaseTest {
                 null,
                 new com.e6.domain.model.Indicator.Coordinate(9, 9)));
 
-        assertEquals(0, fixture.graphDataQuery.calls);
+        assertEquals(0, fixture.graphRepository.snapshotCalls);
         assertEquals(new com.e6.domain.model.Indicator.Coordinate(9, 9), fixture.graphRepository.saved.getCoordinate());
     }
 
@@ -66,7 +65,7 @@ class UpdateGraphUseCaseTest {
                 null,
                 null));
 
-        assertEquals(1, fixture.graphDataQuery.calls);
+        assertEquals(1, fixture.graphRepository.snapshotCalls);
         assertEquals(42.0, fixture.graphRepository.saved.getDelta());
         assertEquals(List.of("operations"), fixture.graphRepository.saved.getMetricColumns());
     }
@@ -76,7 +75,6 @@ class UpdateGraphUseCaseTest {
         private final UUID dashboardId = UUID.randomUUID();
         private final FakeGraphRepository graphRepository = new FakeGraphRepository(existingGraph(dashboardId));
         private final FakeDashboardRepository dashboardRepository = new FakeDashboardRepository(ownerId, dashboardId);
-        private final FakeGraphDataQuery graphDataQuery = new FakeGraphDataQuery();
 
         UpdateGraphUseCase useCase() {
             AuthContext authContext = new AuthContext();
@@ -86,7 +84,6 @@ class UpdateGraphUseCaseTest {
             return new UpdateGraphUseCase(
                     graphRepository,
                     dashboardRepository,
-                    graphDataQuery,
                     new DashboardAccessService(authContext));
         }
 
@@ -115,9 +112,20 @@ class UpdateGraphUseCaseTest {
     private static class FakeGraphRepository implements GraphRepository {
         private Graph graph;
         private Graph saved;
+        private int snapshotCalls;
 
         FakeGraphRepository(Graph graph) {
             this.graph = graph;
+        }
+
+        @Override
+        public GraphSnapshot calculateSnapshot(Graph graph) {
+            snapshotCalls++;
+            return new GraphSnapshot(
+                    42.0,
+                    List.of(Map.of("name", "2026-01", "operations", 99.0)),
+                    List.of(new GraphSeries(0, "operations", "Operaciones", "#059669", List.of()))
+            );
         }
 
         @Override
@@ -204,17 +212,4 @@ class UpdateGraphUseCaseTest {
         }
     }
 
-    private static class FakeGraphDataQuery implements GraphDataQuery {
-        private int calls;
-
-        @Override
-        public GraphSnapshot calculate(Graph graph) {
-            calls++;
-            return new GraphSnapshot(
-                    42.0,
-                    List.of(Map.of("name", "2026-01", "operations", 99.0)),
-                    List.of(new GraphSeries(0, "operations", "Operaciones", "#059669", List.of()))
-            );
-        }
-    }
 }

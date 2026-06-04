@@ -1,19 +1,19 @@
 package com.e6.application.usecase.graph;
 
 import com.e6.application.dto.graph.GraphCatalogResponseDTO;
-import com.e6.domain.service.GraphCatalogService;
+import com.e6.domain.repository.SourceRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class GetGraphCatalogUseCase {
 
-    private final GraphCatalogService graphCatalogService;
+    private final SourceRepository sourceRepository;
 
-    public GetGraphCatalogUseCase(GraphCatalogService graphCatalogService) {
-        this.graphCatalogService = graphCatalogService;
+    public GetGraphCatalogUseCase(SourceRepository sourceRepository) {
+        this.sourceRepository = sourceRepository;
     }
 
     public GraphCatalogResponseDTO execute() {
-        return GraphCatalogResponseDTO.from(graphCatalogService.catalog());
+        return GraphCatalogResponseDTO.from(sourceRepository.getGraphCatalog());
     }
 }

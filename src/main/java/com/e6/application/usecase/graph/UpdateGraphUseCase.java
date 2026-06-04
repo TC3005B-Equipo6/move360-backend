@@ -7,7 +7,6 @@ import com.e6.domain.model.Dashboard;
 import com.e6.domain.model.graph.Graph;
 import com.e6.domain.model.graph.GraphSnapshot;
 import com.e6.domain.repository.DashboardRepository;
-import com.e6.domain.repository.GraphDataQuery;
 import com.e6.domain.repository.GraphRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -18,17 +17,14 @@ public class UpdateGraphUseCase {
 
     private final GraphRepository graphRepository;
     private final DashboardRepository dashboardRepository;
-    private final GraphDataQuery graphDataQuery;
     private final DashboardAccessService dashboardAccessService;
 
     public UpdateGraphUseCase(
             GraphRepository graphRepository,
             DashboardRepository dashboardRepository,
-            GraphDataQuery graphDataQuery,
             DashboardAccessService dashboardAccessService) {
         this.graphRepository = graphRepository;
         this.dashboardRepository = dashboardRepository;
-        this.graphDataQuery = graphDataQuery;
         this.dashboardAccessService = dashboardAccessService;
     }
 
@@ -53,7 +49,7 @@ public class UpdateGraphUseCase {
                 .build();
 
         if (queryChanged(existing, patched)) {
-            GraphSnapshot snapshot = graphDataQuery.calculate(patched);
+            GraphSnapshot snapshot = graphRepository.calculateSnapshot(patched);
             patched = Graph.from(patched)
                     .delta(snapshot.delta())
                     .data(snapshot.data())
