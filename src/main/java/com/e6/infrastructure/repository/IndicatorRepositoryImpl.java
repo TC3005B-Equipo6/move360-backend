@@ -62,7 +62,7 @@ public class IndicatorRepositoryImpl implements IndicatorRepository, PanacheRepo
             baseQuery = """
             SELECT COALESCE(%s(%s), 0)
             FROM %s
-            WHERE (year * 100 + month)
+            WHERE STR_TO_DATE(CONCAT(year, '-', month, '-01'), '%%Y-%%m-%%d')
                   BETWEEN :startDate AND :endDate
             """
                     .formatted(
