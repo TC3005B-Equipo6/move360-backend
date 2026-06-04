@@ -19,6 +19,8 @@ public interface DashboardRepository {
 
     Dashboard findDashboardById(UUID uuid);
 
+    CreateDashboardResponseDTO updateDashboard(Dashboard dashboard);
+
     void deleteDashboardById(UUID id);
 
     AddTagResponseDTO addTag(UUID id, int tagId);

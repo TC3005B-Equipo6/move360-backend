@@ -4,16 +4,21 @@ import com.e6.application.dto.dashboard.AddTagResponseDTO;
 import com.e6.application.dto.dashboard.CreateDashboardResponseDTO;
 import com.e6.application.dto.dashboard.GetDashboardsResponseDTO;
 import com.e6.application.dto.dashboard.GetUserDashboardsResponseDTO;
+import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
 import com.e6.domain.exception.DashboardNotFoundException;
+import com.e6.domain.exception.IndicatorNotFoundException;
 import com.e6.domain.exception.TagNotFoundException;
 import com.e6.domain.model.Dashboard;
 import com.e6.domain.model.User;
 import com.e6.domain.repository.DashboardRepository;
 import com.e6.infrastructure.entity.DashboardEntity;
+import com.e6.infrastructure.entity.IndicatorEntity;
 import com.e6.infrastructure.entity.TagEntity;
 import com.e6.infrastructure.mapper.DashboardMapper;
 import com.e6.infrastructure.mapper.TagMapper;
 import com.e6.infrastructure.mapper.UserMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityNotFoundException;
@@ -73,6 +78,24 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
             throw new DashboardNotFoundException(String.valueOf(id));
         }
         return DashboardMapper.toDomainFull(dashboardEntity);
+    }
+
+    @Override
+    @Transactional
+    public CreateDashboardResponseDTO updateDashboard(Dashboard dashboard) {
+        DashboardEntity dashboardEntity = findByIdOptional(dashboard.getId())
+                .orElseThrow(() -> new DashboardNotFoundException(String.valueOf(dashboard.getId())));
+
+        if (dashboard.getTitle() != null)
+            dashboardEntity.setTitle(dashboard.getTitle());
+        if (dashboard.getDescription() != null)
+            dashboardEntity.setDescription(dashboard.getDescription());
+
+        return new CreateDashboardResponseDTO(
+                dashboardEntity.getId(),
+                dashboardEntity.getTitle(),
+                dashboardEntity.getDescription(),
+                dashboardEntity.getOwner().getFirstName() + dashboardEntity.getOwner().getPaternalSurname());
     }
 
     @Override

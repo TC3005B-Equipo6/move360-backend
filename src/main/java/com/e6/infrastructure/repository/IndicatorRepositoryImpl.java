@@ -1,24 +1,15 @@
 package com.e6.infrastructure.repository;
 
 import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
-import com.e6.application.dto.indicator.GetIndicatorResponseDTO;
-import com.e6.application.dto.indicator.UpdateIndicatorResponseDTO;
-import com.e6.domain.exception.ColorNotFoundException;
 import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.exception.IndicatorNotFoundException;
-import com.e6.domain.exception.TagNotFoundException;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.Indicator.Operation;
 import com.e6.domain.model.source.FilterMetadata;
 import com.e6.domain.repository.IndicatorRepository;
-import com.e6.infrastructure.entity.ColorEntity;
 import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
-import com.e6.infrastructure.entity.TagEntity;
-import com.e6.infrastructure.mapper.ColorMapper;
-import com.e6.infrastructure.mapper.DashboardMapper;
 import com.e6.infrastructure.mapper.IndicatorMapper;
-import com.e6.infrastructure.mapper.TagMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
