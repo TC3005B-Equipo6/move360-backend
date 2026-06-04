@@ -16,7 +16,7 @@ public interface IndicatorRepository {
 
     Indicator findIndicatorById(int id);
 
-    UpdateIndicatorResponseDTO updateIndicator(Indicator indicator);
+    CreateIndicatorResponseDTO updateIndicator(Indicator indicator);
 
     void deleteIndicatorById(int id);
 }

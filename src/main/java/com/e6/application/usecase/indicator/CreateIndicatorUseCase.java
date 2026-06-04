@@ -12,7 +12,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Set;
 
 @ApplicationScoped
 public class CreateIndicatorUseCase {

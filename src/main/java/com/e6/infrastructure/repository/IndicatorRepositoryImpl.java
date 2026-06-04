@@ -1,30 +1,45 @@
 package com.e6.infrastructure.repository;
 
+import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
 import com.e6.application.dto.indicator.GetIndicatorResponseDTO;
 import com.e6.application.dto.indicator.UpdateIndicatorResponseDTO;
 import com.e6.domain.exception.ColorNotFoundException;
 import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.exception.IndicatorNotFoundException;
+import com.e6.domain.exception.TagNotFoundException;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.Indicator.Operation;
 import com.e6.domain.model.source.FilterMetadata;
 import com.e6.domain.repository.IndicatorRepository;
+import com.e6.infrastructure.entity.ColorEntity;
 import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
 import com.e6.infrastructure.entity.TagEntity;
 import com.e6.infrastructure.mapper.ColorMapper;
 import com.e6.infrastructure.mapper.DashboardMapper;
 import com.e6.infrastructure.mapper.IndicatorMapper;
+import com.e6.infrastructure.mapper.TagMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.container.ResourceInfo;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 @ApplicationScoped
 public class IndicatorRepositoryImpl implements IndicatorRepository, PanacheRepositoryBase<IndicatorEntity, Integer> {
+
+    private final ResourceInfo resourceInfo;
+
+    @Inject
+    public IndicatorRepositoryImpl(ResourceInfo resourceInfo) {
+        this.resourceInfo = resourceInfo;
+    }
 
     @Override
     public Double aggregate(
@@ -117,8 +132,34 @@ public class IndicatorRepositoryImpl implements IndicatorRepository, PanacheRepo
 
     @Override
     @Transactional
-    public UpdateIndicatorResponseDTO updateIndicator(Indicator indicator) {
-        return null;
+    public CreateIndicatorResponseDTO updateIndicator(Indicator indicator) {
+        IndicatorEntity indicatorEntity = findByIdOptional(indicator.getId())
+                .orElseThrow(() -> new IndicatorNotFoundException(String.valueOf(indicator.getId())));
+
+        if (indicator.getTitle() != null)
+            indicatorEntity.setTitle(indicator.getTitle());
+        if (indicator.getSubtitle() != null)
+            indicatorEntity.setSubtitle(indicator.getSubtitle());
+        if (indicator.getRelationship() != null)
+            indicatorEntity.setRelationship(indicator.getRelationship());
+        if (indicator.getCoordinate() != null){
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                indicatorEntity.setCoordinate(mapper.writeValueAsString(indicator.getCoordinate()));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return new CreateIndicatorResponseDTO(
+                indicatorEntity.getId(),
+                indicatorEntity.getTitle(),
+                indicatorEntity.getSubtitle(),
+                indicatorEntity.getType(),
+                indicatorEntity.getRelationship(),
+                indicatorEntity.getDeltaData(),
+                indicatorEntity.getData()
+        );
     }
 
     @Override
