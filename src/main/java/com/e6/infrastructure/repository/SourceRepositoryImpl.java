@@ -1,5 +1,6 @@
 package com.e6.infrastructure.repository;
 
+import com.e6.application.dto.indicator.IndicatorFiltersDTO;
 import com.e6.application.dto.source.FilterResponseDTO;
 import com.e6.application.dto.source.SourceItemResponseDTO;
 import com.e6.domain.model.source.FilterMetadata;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ApplicationScoped
 public class SourceRepositoryImpl implements SourceRepository {
@@ -76,42 +78,64 @@ public class SourceRepositoryImpl implements SourceRepository {
     }
 
     @Override
-    public Metadata getMetadata(int sourceId, int tableId, int columnId, Set<Integer> filterIds) {
-        switch(sourceId) {
+    public Metadata getMetadata(
+            int sourceId,
+            int tableId,
+            int columnId,
+            IndicatorFiltersDTO filtersDto) {
+
+        var source = sources.get(sourceId);
+        var table = source.tables().get(tableId);
+
+        switch (sourceId) {
+
             case 0:
                 return new Metadata(
-                        sources.get(sourceId).tables().get(tableId).displayName(),
-                        sources.get(sourceId).tables().get(tableId).columns().get(columnId).displayName(),
+                        table.tableName(),
+                        table.columns()
+                                .get(columnId)
+                                .columnName(),
                         Set.of()
                 );
+
             case 1:
-                Set<Integer> ids = new HashSet<>(filterIds);
-                /*
-                *
-                * Set<FilterMetadata> filters = sources.get().filters()
-                        .stream()
-                        .filter(f -> ids.contains(f.id()))
-                        .map(f -> new FilterMetadata(
-                                f.columnName(),
-                                new HashSet<>(f.values())
-                        ))
-                        .collect(Collectors.toSet());
+
+                if (filtersDto.ids().length != filtersDto.values().length) {
+                    throw new IllegalArgumentException(
+                            "Filter ids and values must have the same length");
+                }
+
+                Set<FilterMetadata> resolvedFilters =
+                        IntStream.range(0, filtersDto.ids().length)
+                                .mapToObj(i -> {
+
+                                    int filterId = filtersDto.ids()[i];
+                                    String value = filtersDto.values()[i];
+
+                                    var filter = table.filters()
+                                            .stream()
+                                            .filter(f -> f.id() == filterId)
+                                            .findFirst()
+                                            .orElseThrow(() ->
+                                                    new IllegalArgumentException(
+                                                            "Filter not found: " + filterId));
+
+                                    return new FilterMetadata(
+                                            filter.columnName(),
+                                            value
+                                    );
+                                })
+                                .collect(Collectors.toSet());
 
                 return new Metadata(
-                        sources.get(sourceId).tables().get(tableId).displayName(),
+                        table.tableName(),
                         "afluencia",
-                        sources.get(sourceId).tables().get(tableId).filters().stream()
-                                .map(filter::get)
-                                .filter()
-                                .collect(Collectors.toSet())
+                        resolvedFilters
                 );
-                * */
-
-                return new Metadata("", "", Set.of());
 
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(
+                        "Unsupported sourceId: " + sourceId);
         }
-
     }
 }

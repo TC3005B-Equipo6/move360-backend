@@ -1,5 +1,6 @@
 package com.e6.domain.repository;
 
+import com.e6.application.dto.indicator.IndicatorFiltersDTO;
 import com.e6.application.dto.source.*;
 import com.e6.domain.model.source.Metadata;
 
@@ -11,5 +12,5 @@ public interface SourceRepository {
     List<SourceItemResponseDTO> getTables(int id);
     List<SourceItemResponseDTO> getColumns(int id);
     List<FilterResponseDTO> getFilters(int id);
-    Metadata getMetadata(int sourceId, int tableId, int columnId, Set<Integer> filterids);
+    Metadata getMetadata(int sourceId, int tableId, int columnId, IndicatorFiltersDTO filters);
 }

@@ -28,25 +28,29 @@ public class CreateIndicatorUseCase {
                 createIndicatorDTO.sourceId(),
                 createIndicatorDTO.tableId(),
                 createIndicatorDTO.columnId(),
-                Set.of());
+                createIndicatorDTO.filters());
 
         Double data = indicatorRepository.aggregate(
+                createIndicatorDTO.sourceId() == 1,
                 metadata.tableName(),
                 metadata.columnName(),
                 createIndicatorDTO.operation(),
                 createIndicatorDTO.startDate(),
-                createIndicatorDTO.endDate()
+                createIndicatorDTO.endDate(),
+                metadata.filters()
         );
 
         long days = ChronoUnit.DAYS.between(createIndicatorDTO.startDate(), createIndicatorDTO.endDate());
         LocalDate previousStart = createIndicatorDTO.startDate().minusDays(days);
 
         Double deltaData = indicatorRepository.aggregate(
+                createIndicatorDTO.sourceId() == 1,
                 metadata.tableName(),
                 metadata.columnName(),
                 createIndicatorDTO.operation(),
                 previousStart,
-                createIndicatorDTO.startDate()
+                createIndicatorDTO.startDate(),
+                metadata.filters()
         );
 
         Indicator indicator = Indicator.builder()
