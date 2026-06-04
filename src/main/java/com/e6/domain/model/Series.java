@@ -1,5 +1,7 @@
 package com.e6.domain.model;
 
+import com.e6.domain.model.graph.Graph;
+
 public class Series {
     private int id;
     private String data;

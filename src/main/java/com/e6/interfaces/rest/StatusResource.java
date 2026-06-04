@@ -1,6 +1,7 @@
 package com.e6.interfaces.rest;
 
 import com.e6.application.security.PermitPublic;
+import com.e6.domain.model.Indicator.Operation;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -14,7 +15,7 @@ public class StatusResource {
 
     @GET
     public Response status(){
-        return Response.ok("Move 360 :)").build();
+        return Response.ok(Operation.AVERAGE.toString()).build();
     }
 
 }

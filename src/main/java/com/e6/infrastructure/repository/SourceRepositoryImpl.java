@@ -2,6 +2,8 @@ package com.e6.infrastructure.repository;
 
 import com.e6.application.dto.source.FilterResponseDTO;
 import com.e6.application.dto.source.SourceItemResponseDTO;
+import com.e6.domain.model.source.FilterMetadata;
+import com.e6.domain.model.source.Metadata;
 import com.e6.domain.model.source.Source;
 import com.e6.domain.repository.SourceRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,7 +12,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class SourceRepositoryImpl implements SourceRepository {
@@ -68,5 +73,45 @@ public class SourceRepositoryImpl implements SourceRepository {
                         t.displayName(),
                         t.values().toArray(new String[0])))
                 .toList();
+    }
+
+    @Override
+    public Metadata getMetadata(int sourceId, int tableId, int columnId, Set<Integer> filterIds) {
+        switch(sourceId) {
+            case 0:
+                return new Metadata(
+                        sources.get(sourceId).tables().get(tableId).displayName(),
+                        sources.get(sourceId).tables().get(tableId).columns().get(columnId).displayName(),
+                        Set.of()
+                );
+            case 1:
+                Set<Integer> ids = new HashSet<>(filterIds);
+                /*
+                *
+                * Set<FilterMetadata> filters = sources.get().filters()
+                        .stream()
+                        .filter(f -> ids.contains(f.id()))
+                        .map(f -> new FilterMetadata(
+                                f.columnName(),
+                                new HashSet<>(f.values())
+                        ))
+                        .collect(Collectors.toSet());
+
+                return new Metadata(
+                        sources.get(sourceId).tables().get(tableId).displayName(),
+                        "afluencia",
+                        sources.get(sourceId).tables().get(tableId).filters().stream()
+                                .map(filter::get)
+                                .filter()
+                                .collect(Collectors.toSet())
+                );
+                * */
+
+                return new Metadata("", "", Set.of());
+
+            default:
+                throw new IllegalArgumentException();
+        }
+
     }
 }

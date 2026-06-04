@@ -1,37 +1,37 @@
 package com.e6.infrastructure.mapper;
 
-import com.e6.domain.model.Graph;
+import com.e6.domain.model.graph.Graph;
 import com.e6.infrastructure.entity.GraphEntity;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class GraphMapper {
 
     public static Graph toDomain(GraphEntity entity) {
-        Graph graph = new Graph();
-        graph.setId(entity.getId() == null ? 0 : entity.getId());
-        graph.setQuery(entity.getQuery());
-        graph.setStartDate(entity.getStartDate());
-        graph.setEndDate(entity.getEndDate());
-        graph.setCoordinate(entity.getCoordinate());
-        graph.setDashboard(DashboardMapper.toDomainSimple(entity.getDashboard()));
+        return Graph.builder()
+                .id(entity.getId())
+                .query(entity.getQuery())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .dashboard(DashboardMapper.toDomainSimple(entity.getDashboard()))
+                //.coordinate(entity.getCoordinate())
+                //.sources(entity.getSource())
+                .build();
         // TODO: crear SourceMapper y mapear entity.getSources() -> graph.setSources(...)
-        graph.setSources(new HashSet<>());
-        return graph;
     }
 
     public static Graph toDomainWithoutDashboard(GraphEntity entity) {
-        Graph graph = new Graph();
-        graph.setId(entity.getId() == null ? 0 : entity.getId());
-        graph.setQuery(entity.getQuery());
-        graph.setStartDate(entity.getStartDate());
-        graph.setEndDate(entity.getEndDate());
-        graph.setCoordinate(entity.getCoordinate());
+        return Graph.builder()
+                .id(entity.getId())
+                .query(entity.getQuery())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .dashboard(DashboardMapper.toDomainSimple(entity.getDashboard()))
+                //.coordinate(entity.getCoordinate())
+                //.sources(entity.getSource())
+                .build();
         // TODO: crear SourceMapper y mapear entity.getSources() -> graph.setSources(...)
-        graph.setSources(new HashSet<>());
-        return graph;
     }
 
     public static Set<Graph> toDomainSetWithoutDashboard(Set<GraphEntity> entities) {
@@ -48,7 +48,7 @@ public final class GraphMapper {
         entity.setQuery(graph.getQuery());
         entity.setStartDate(graph.getStartDate());
         entity.setEndDate(graph.getEndDate());
-        entity.setCoordinate(graph.getCoordinate());
+        //entity.setCoordinate(graph.getCoordinate());
         if (graph.getDashboard() != null) {
             entity.setDashboard(DashboardMapper.toEntity(graph.getDashboard()));
         }

@@ -2,7 +2,7 @@ package com.e6.domain.model.Indicator;
 
 import com.e6.domain.model.source.Source;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Indicator {
@@ -11,11 +11,11 @@ public class Indicator {
     private String subtitle;
     private IndicatorType type;
     private Double data;
-    private Delta delta;
+    private Relationship relationship;
     private Double deltaData;
     private Operation operation;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String query;
     private UUID dashboardId;
     private Coordinate coordinate;
@@ -33,11 +33,11 @@ public class Indicator {
         private String subtitle;
         private IndicatorType type;
         private Double data;
-        private Delta delta;
+        private Relationship relationship;
         private Double deltaData;
         private Operation operation;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private String query;
         private UUID dashboardId;
         private Coordinate coordinate;
@@ -68,8 +68,8 @@ public class Indicator {
             return this;
         }
 
-        public Builder delta(Delta delta){
-            this.delta = delta;
+        public Builder delta(Relationship relationship){
+            this.relationship = relationship;
             return this;
         }
 
@@ -83,12 +83,12 @@ public class Indicator {
             return this;
         }
 
-        public Builder startDate(LocalDateTime startDate){
+        public Builder startDate(LocalDate startDate){
             this.startDate = startDate;
             return this;
         }
 
-        public Builder endDate(LocalDateTime endDate){
+        public Builder endDate(LocalDate endDate){
             this.endDate = endDate;
             return this;
         }
@@ -120,7 +120,7 @@ public class Indicator {
             indicator.subtitle = this.subtitle;
             indicator.type = this.type;
             indicator.data = this.data;
-            indicator.delta = this.delta;
+            indicator.relationship = this.relationship;
             indicator.deltaData = this.deltaData;
             indicator.operation = this.operation;
             indicator.startDate = this.startDate;
@@ -133,13 +133,13 @@ public class Indicator {
         }
     }
 
-    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Delta delta, Double deltaData, Operation operation, LocalDateTime startDate, LocalDateTime endDate, String query, UUID dashboardId, Coordinate coordinate, Source source) {
+    public Indicator(int id, String title, String subtitle, IndicatorType type, Double data, Relationship relationship, Double deltaData, Operation operation, LocalDate startDate, LocalDate endDate, String query, UUID dashboardId, Coordinate coordinate, Source source) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.type = type;
         this.data = data;
-        this.delta = delta;
+        this.relationship = relationship;
         this.deltaData = deltaData;
         this.operation = operation;
         this.startDate = startDate;
@@ -170,8 +170,8 @@ public class Indicator {
         return data;
     }
 
-    public Delta getDelta() {
-        return delta;
+    public Relationship getDelta() {
+        return relationship;
     }
 
     public Double getDeltaData() {
@@ -182,11 +182,11 @@ public class Indicator {
         return operation;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

@@ -63,7 +63,7 @@ public final class IndicatorMapper {
         entity.setEndDate(indicator.getEndDate());
         entity.setQuery(indicator.getQuery());
         entity.setTitle(indicator.getTitle());
-        //entity.setCoordinate(indicator.getCoordinate());
+        entity.setCoordinate(indicator.getCoordinate().toString());
         if (indicator.getDashboardId() != null) {
             //entity.setDashboard(DashboardMapper.toEntity(indicator.getDashboardId()));
         }

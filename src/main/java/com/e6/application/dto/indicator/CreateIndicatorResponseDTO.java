@@ -1,6 +1,6 @@
 package com.e6.application.dto.indicator;
 
-import com.e6.domain.model.Indicator.Delta;
+import com.e6.domain.model.Indicator.Relationship;
 import com.e6.domain.model.Indicator.IndicatorType;
 
 public record CreateIndicatorResponseDTO(
@@ -8,7 +8,7 @@ public record CreateIndicatorResponseDTO(
         String title,
         String subtitle,
         IndicatorType type,
-        Delta delta,
+        Relationship relationship,
         Double deltaData,
         Double data
 ) {
