@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class GraphMapperTest {
 
@@ -59,5 +60,51 @@ class GraphMapperTest {
 
         assertEquals(0, graph.getSeries().getFirst().getId());
         assertEquals("passengers", graph.getSeries().getFirst().getSeriesKey());
+    }
+
+    @Test
+    void copyToEntityUpdatesExistingSeriesInPlace() {
+        GraphEntity entity = new GraphEntity();
+        SeriesEntity existingSeries = new SeriesEntity();
+        existingSeries.setId(5);
+        existingSeries.setSeriesKey("passengers");
+        existingSeries.setLabel("Pasajeros");
+        existingSeries.setColor("#2563EB");
+        existingSeries.setData("[]");
+        existingSeries.setGraph(entity);
+        entity.getSeries().add(existingSeries);
+
+        Graph graph = Graph.builder()
+                .id(12)
+                .title("Pasajeros")
+                .subtitle("Mensual")
+                .size(GraphSize.CHART_LG)
+                .type(GraphType.BAR)
+                .sourceId(0)
+                .tableId(0)
+                .dimensionColumn("month")
+                .metricColumns(List.of("passengers"))
+                .operation(GraphOperation.SUM)
+                .compareEnabled(false)
+                .startMonth("2026-01")
+                .endMonth("2026-01")
+                .coordinate(new Coordinate(0, 0))
+                .delta(null)
+                .data(List.of(Map.of("name", "2026-01", "passengers", 100.0)))
+                .series(List.of(new com.e6.domain.model.graph.GraphSeries(
+                        5,
+                        "passengers",
+                        "Pasajeros actualizados",
+                        "#059669",
+                        List.of(Map.of("name", "2026-01", "value", 100.0)))))
+                .build();
+
+        GraphMapper.copyToEntity(graph, entity);
+
+        assertEquals(GraphSize.CHART_LG, entity.getSize());
+        assertEquals(1, entity.getSeries().size());
+        assertSame(existingSeries, entity.getSeries().getFirst());
+        assertEquals("Pasajeros actualizados", existingSeries.getLabel());
+        assertEquals("#059669", existingSeries.getColor());
     }
 }

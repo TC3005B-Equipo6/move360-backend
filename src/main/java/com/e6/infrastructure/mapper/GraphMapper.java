@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -97,12 +98,7 @@ public final class GraphMapper {
         entity.setDelta(graph.getDelta());
         entity.setData(write(graph.getData()));
 
-        entity.getSeries().clear();
-        for (GraphSeries series : graph.getSeries()) {
-            SeriesEntity seriesEntity = toEntity(series);
-            seriesEntity.setGraph(entity);
-            entity.getSeries().add(seriesEntity);
-        }
+        copySeriesToEntity(graph, entity);
     }
 
     public static Set<GraphEntity> toEntitySet(Set<Graph> graphs) {
@@ -130,11 +126,42 @@ public final class GraphMapper {
         if (series.getId() != 0) {
             entity.setId(series.getId());
         }
+        copyToEntity(series, entity);
+        return entity;
+    }
+
+    private static void copySeriesToEntity(Graph graph, GraphEntity entity) {
+        Map<Integer, SeriesEntity> existingById = new HashMap<>();
+        for (SeriesEntity existing : entity.getSeries()) {
+            if (existing.getId() != null) {
+                existingById.put(existing.getId(), existing);
+            }
+        }
+
+        List<SeriesEntity> mappedSeries = new ArrayList<>();
+        for (GraphSeries series : graph.getSeries()) {
+            SeriesEntity seriesEntity = series.getId() == 0 ? null : existingById.get(series.getId());
+            if (seriesEntity == null) {
+                seriesEntity = new SeriesEntity();
+            }
+            copyToEntity(series, seriesEntity);
+            seriesEntity.setGraph(entity);
+            mappedSeries.add(seriesEntity);
+        }
+
+        entity.getSeries().removeIf(existing -> !mappedSeries.contains(existing));
+        for (SeriesEntity seriesEntity : mappedSeries) {
+            if (!entity.getSeries().contains(seriesEntity)) {
+                entity.getSeries().add(seriesEntity);
+            }
+        }
+    }
+
+    private static void copyToEntity(GraphSeries series, SeriesEntity entity) {
         entity.setSeriesKey(series.getSeriesKey());
         entity.setLabel(series.getLabel());
         entity.setColor(series.getColor());
         entity.setData(write(series.getData()));
-        return entity;
     }
 
     private static Coordinate readCoordinate(String value) {
