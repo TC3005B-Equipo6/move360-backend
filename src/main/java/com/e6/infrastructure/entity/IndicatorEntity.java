@@ -52,7 +52,7 @@ import java.time.LocalDate;
         @Column( nullable = false)
         private IndicatorType type;
 
-        @Column(nullable = false)
+        @Column(nullable = true)
         private Double data;
 
         @Column(nullable = false)

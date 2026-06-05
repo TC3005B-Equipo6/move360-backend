@@ -2,13 +2,18 @@ package com.e6.interfaces.rest;
 
 import com.e6.application.usecase.source.GetColumnsUseCase;
 import com.e6.application.usecase.source.GetFiltersUseCase;
+import com.e6.application.security.PermitPublic;
 import com.e6.application.usecase.source.GetSourcesUseCase;
 import com.e6.application.usecase.source.GetTablesUseCase;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+// Read-only static catalog (sources/tables/columns/filters) used by the indicator
+// builder. Public like /graph/catalog — it exposes no user data, so it must not
+// require auth (a stale Firebase token would otherwise 401 and empty the modal).
 @Path("/source")
+@PermitPublic
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SourceResource {

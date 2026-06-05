@@ -4,6 +4,7 @@ import com.e6.application.dto.indicator.CreateIndicatorDTO;
 import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
 import com.e6.application.dto.indicator.IndicatorFiltersDTO;
 import com.e6.domain.model.Indicator.Indicator;
+import com.e6.domain.model.Indicator.IndicatorType;
 import com.e6.domain.model.source.Metadata;
 import com.e6.domain.repository.IndicatorRepository;
 import com.e6.domain.repository.SourceRepository;
@@ -16,6 +17,8 @@ import java.time.temporal.ChronoUnit;
 
 @ApplicationScoped
 public class CreateIndicatorUseCase {
+
+    private static final double ZERO_EPSILON = 1e-9;
 
     private final IndicatorRepository indicatorRepository;
     private final SourceRepository sourceRepository;
@@ -38,28 +41,21 @@ public class CreateIndicatorUseCase {
                     createIndicatorDTO.columnId(),
                     filters);
 
-            Double data = indicatorRepository.aggregate(
-                    createIndicatorDTO.sourceId() == 1,
-                    metadata.tableName(),
-                    metadata.columnName(),
-                    createIndicatorDTO.operation(),
+            Double rangeData = aggregate(
+                    createIndicatorDTO,
+                    metadata,
                     createIndicatorDTO.startDate(),
-                    createIndicatorDTO.endDate(),
-                    metadata.filters()
-            );
+                    createIndicatorDTO.endDate());
+            Double data = calculateData(createIndicatorDTO, metadata, rangeData);
 
             long days = ChronoUnit.DAYS.between(createIndicatorDTO.startDate(), createIndicatorDTO.endDate());
             LocalDate previousStart = createIndicatorDTO.startDate().minusDays(days);
 
-            Double deltaData = data - indicatorRepository.aggregate(
-                    createIndicatorDTO.sourceId() == 1,
-                    metadata.tableName(),
-                    metadata.columnName(),
-                    createIndicatorDTO.operation(),
+            Double deltaData = rangeData - aggregate(
+                    createIndicatorDTO,
+                    metadata,
                     previousStart,
-                    createIndicatorDTO.startDate(),
-                    metadata.filters()
-            );
+                    createIndicatorDTO.startDate());
 
             Indicator indicator = Indicator.builder()
                     .title(createIndicatorDTO.title())
@@ -96,5 +92,37 @@ public class CreateIndicatorUseCase {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Double calculateData(CreateIndicatorDTO createIndicatorDTO, Metadata metadata, Double rangeData) {
+        if (createIndicatorDTO.type() != IndicatorType.PERCENTAGE) {
+            return rangeData;
+        }
+
+        LocalDate startMonthStart = createIndicatorDTO.startDate().withDayOfMonth(1);
+        LocalDate startMonthEnd = createIndicatorDTO.startDate().withDayOfMonth(createIndicatorDTO.startDate().lengthOfMonth());
+        LocalDate endMonthStart = createIndicatorDTO.endDate().withDayOfMonth(1);
+        LocalDate endMonthEnd = createIndicatorDTO.endDate().withDayOfMonth(createIndicatorDTO.endDate().lengthOfMonth());
+
+        Double startValue = aggregate(createIndicatorDTO, metadata, startMonthStart, startMonthEnd);
+        Double endValue = aggregate(createIndicatorDTO, metadata, endMonthStart, endMonthEnd);
+
+        if (startValue == null || endValue == null || Math.abs(startValue) < ZERO_EPSILON) {
+            return null;
+        }
+
+        return ((endValue - startValue) / startValue) * 100;
+    }
+
+    private Double aggregate(CreateIndicatorDTO createIndicatorDTO, Metadata metadata, LocalDate startDate, LocalDate endDate) {
+        return indicatorRepository.aggregate(
+                createIndicatorDTO.sourceId() == 1,
+                metadata.tableName(),
+                metadata.columnName(),
+                createIndicatorDTO.operation(),
+                startDate,
+                endDate,
+                metadata.filters()
+        );
     }
 }

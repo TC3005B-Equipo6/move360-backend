@@ -9,14 +9,17 @@ import com.e6.domain.model.Indicator.Relationship;
 import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.Column;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class IndicatorMapperTest {
 
@@ -45,6 +48,39 @@ class IndicatorMapperTest {
         assertEquals(3, entity.getTableId());
         assertEquals(4, entity.getColumnId());
         assertEquals("{\"ids\":[7],\"values\":[\"Metro\"]}", entity.getFilters());
+    }
+
+    @Test
+    void mapsNullIndicatorDataToEntity() {
+        Indicator indicator = Indicator.builder()
+                .title("Cambio porcentual")
+                .subtitle("Base cero")
+                .type(IndicatorType.PERCENTAGE)
+                .data(null)
+                .relationship(Relationship.DIRECT)
+                .deltaData(0.0)
+                .operation(Operation.SUM)
+                .startDate(LocalDate.of(2026, 1, 1))
+                .endDate(LocalDate.of(2026, 1, 31))
+                .query("{}")
+                .coordinate(new Coordinate(1, 2))
+                .source(0)
+                .table(3)
+                .column(4)
+                .filters(IndicatorFilterSelection.empty())
+                .build();
+
+        IndicatorEntity entity = IndicatorMapper.toEntity(indicator);
+
+        assertNull(entity.getData());
+    }
+
+    @Test
+    void dataColumnAllowsNull() throws Exception {
+        Field dataField = IndicatorEntity.class.getDeclaredField("data");
+        Column column = dataField.getAnnotation(Column.class);
+
+        assertTrue(column.nullable());
     }
 
     @Test
