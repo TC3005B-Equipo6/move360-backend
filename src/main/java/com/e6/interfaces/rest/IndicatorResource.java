@@ -7,6 +7,7 @@ import com.e6.application.usecase.indicator.CreateIndicatorUseCase;
 import com.e6.application.usecase.indicator.DeleteIndicatorByIdUseCase;
 import com.e6.application.usecase.indicator.GetIndicatorByIdUseCase;
 import com.e6.application.usecase.indicator.UpdateIndicatorUseCase;
+import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.exception.IndicatorNotFoundException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -49,6 +50,10 @@ public class IndicatorResource {
     public Response updateIndicator(@PathParam("id") int id, UpdateIndicatorDTO updateIndicatorDTO) {
         try {
             return Response.ok().entity(updateIndicatorUseCase.execute(id, updateIndicatorDTO)).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (DashboardNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (IndicatorNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }

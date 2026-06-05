@@ -1,12 +1,10 @@
 package com.e6.domain.repository;
 
-import com.e6.application.dto.indicator.*;
 import com.e6.domain.model.Indicator.Indicator;
 import com.e6.domain.model.Indicator.Operation;
 import com.e6.domain.model.source.FilterMetadata;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 public interface IndicatorRepository {
@@ -16,7 +14,7 @@ public interface IndicatorRepository {
 
     Indicator findIndicatorById(int id);
 
-    CreateIndicatorResponseDTO updateIndicator(Indicator indicator);
+    Indicator updateIndicator(Indicator indicator);
 
     void deleteIndicatorById(int id);
 }

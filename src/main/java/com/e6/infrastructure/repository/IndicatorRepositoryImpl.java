@@ -1,6 +1,5 @@
 package com.e6.infrastructure.repository;
 
-import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
 import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.exception.IndicatorNotFoundException;
 import com.e6.domain.model.Indicator.Indicator;
@@ -10,8 +9,6 @@ import com.e6.domain.repository.IndicatorRepository;
 import com.e6.infrastructure.entity.DashboardEntity;
 import com.e6.infrastructure.entity.IndicatorEntity;
 import com.e6.infrastructure.mapper.IndicatorMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -123,34 +120,19 @@ public class IndicatorRepositoryImpl implements IndicatorRepository, PanacheRepo
 
     @Override
     @Transactional
-    public CreateIndicatorResponseDTO updateIndicator(Indicator indicator) {
+    public Indicator updateIndicator(Indicator indicator) {
         IndicatorEntity indicatorEntity = findByIdOptional(indicator.getId())
                 .orElseThrow(() -> new IndicatorNotFoundException(String.valueOf(indicator.getId())));
 
-        if (indicator.getTitle() != null)
-            indicatorEntity.setTitle(indicator.getTitle());
-        if (indicator.getSubtitle() != null)
-            indicatorEntity.setSubtitle(indicator.getSubtitle());
-        if (indicator.getRelationship() != null)
-            indicatorEntity.setRelationship(indicator.getRelationship());
-        if (indicator.getCoordinate() != null){
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                indicatorEntity.setCoordinate(mapper.writeValueAsString(indicator.getCoordinate()));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            DashboardEntity dashboardReference = getEntityManager().getReference(DashboardEntity.class, indicator.getDashboardId());
+            indicatorEntity.setDashboard(dashboardReference);
+            IndicatorMapper.copyToEntity(indicator, indicatorEntity);
+            flush();
+            return IndicatorMapper.toDomain(indicatorEntity);
+        } catch (EntityNotFoundException e) {
+            throw new DashboardNotFoundException(indicator.getDashboardId().toString());
         }
-
-        return new CreateIndicatorResponseDTO(
-                indicatorEntity.getId(),
-                indicatorEntity.getTitle(),
-                indicatorEntity.getSubtitle(),
-                indicatorEntity.getType(),
-                indicatorEntity.getRelationship(),
-                indicatorEntity.getDeltaData(),
-                indicatorEntity.getData()
-        );
     }
 
     @Override

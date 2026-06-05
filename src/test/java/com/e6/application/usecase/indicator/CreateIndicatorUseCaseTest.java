@@ -3,6 +3,7 @@ package com.e6.application.usecase.indicator;
 import com.e6.application.dto.indicator.CreateIndicatorDTO;
 import com.e6.application.dto.indicator.CreateIndicatorResponseDTO;
 import com.e6.application.dto.indicator.IndicatorFiltersDTO;
+import com.e6.application.service.IndicatorMetricsCalculator;
 import com.e6.application.dto.source.FilterResponseDTO;
 import com.e6.application.dto.source.SourceItemResponseDTO;
 import com.e6.domain.model.Indicator.Coordinate;
@@ -118,7 +119,9 @@ class CreateIndicatorUseCaseTest {
         private final FakeSourceRepository sourceRepository = new FakeSourceRepository();
 
         CreateIndicatorUseCase useCase() {
-            return new CreateIndicatorUseCase(indicatorRepository, sourceRepository);
+            return new CreateIndicatorUseCase(
+                    indicatorRepository,
+                    new IndicatorMetricsCalculator(indicatorRepository, sourceRepository));
         }
     }
 
@@ -168,7 +171,7 @@ class CreateIndicatorUseCaseTest {
         }
 
         @Override
-        public CreateIndicatorResponseDTO updateIndicator(Indicator indicator) {
+        public Indicator updateIndicator(Indicator indicator) {
             throw new UnsupportedOperationException();
         }
 

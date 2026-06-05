@@ -28,6 +28,27 @@ public class Indicator {
         return new Builder();
     }
 
+    public static Builder from(Indicator indicator) {
+        return builder()
+                .id(indicator.getId())
+                .title(indicator.getTitle())
+                .subtitle(indicator.getSubtitle())
+                .type(indicator.getType())
+                .data(indicator.getData())
+                .relationship(indicator.getRelationship())
+                .deltaData(indicator.getDeltaData())
+                .operation(indicator.getOperation())
+                .startDate(indicator.getStartDate())
+                .endDate(indicator.getEndDate())
+                .query(indicator.getQuery())
+                .dashboard(indicator.getDashboardId())
+                .coordinate(indicator.getCoordinate())
+                .source(indicator.getSourceId())
+                .table(indicator.getTableId())
+                .column(indicator.getColumnId())
+                .filters(indicator.getFilters());
+    }
+
     public static class Builder{
         private int id;
         private String title;

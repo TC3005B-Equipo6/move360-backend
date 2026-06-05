@@ -118,4 +118,62 @@ class IndicatorMapperTest {
         assertArrayEquals(new int[] { 2 }, indicator.getFilters().ids());
         assertArrayEquals(new String[] { "Centro" }, indicator.getFilters().values());
     }
+
+    @Test
+    void copyToEntityUpdatesEveryEditableField() {
+        IndicatorEntity entity = new IndicatorEntity();
+        entity.setTitle("Anterior");
+        entity.setSubtitle("Anterior");
+        entity.setType(IndicatorType.NUMBER);
+        entity.setData(1.0);
+        entity.setRelationship(Relationship.DIRECT);
+        entity.setDeltaData(2.0);
+        entity.setOperation(Operation.SUM);
+        entity.setStartDate(LocalDate.of(2026, 1, 1));
+        entity.setEndDate(LocalDate.of(2026, 1, 31));
+        entity.setQuery("{}");
+        entity.setCoordinate("{\"x\":1,\"y\":2}");
+        entity.setSourceId(1);
+        entity.setTableId(2);
+        entity.setColumnId(null);
+        entity.setFilters("{\"ids\":[],\"values\":[]}");
+
+        Indicator indicator = Indicator.builder()
+                .id(8)
+                .title("Nuevo")
+                .subtitle("Actualizado")
+                .type(IndicatorType.PERCENTAGE)
+                .data(null)
+                .relationship(Relationship.INVERSE)
+                .deltaData(15.0)
+                .operation(Operation.AVG)
+                .startDate(LocalDate.of(2026, 2, 1))
+                .endDate(LocalDate.of(2026, 2, 28))
+                .query("{\"tableName\":\"ridership\"}")
+                .coordinate(new Coordinate(3, 4))
+                .source(0)
+                .table(5)
+                .column(6)
+                .filters(new IndicatorFilterSelection(new int[] { 9 }, new String[] { "Linea 9" }))
+                .build();
+
+        IndicatorMapper.copyToEntity(indicator, entity);
+
+        assertEquals(8, entity.getId());
+        assertEquals("Nuevo", entity.getTitle());
+        assertEquals("Actualizado", entity.getSubtitle());
+        assertEquals(IndicatorType.PERCENTAGE, entity.getType());
+        assertNull(entity.getData());
+        assertEquals(Relationship.INVERSE, entity.getRelationship());
+        assertEquals(15.0, entity.getDeltaData());
+        assertEquals(Operation.AVG, entity.getOperation());
+        assertEquals(LocalDate.of(2026, 2, 1), entity.getStartDate());
+        assertEquals(LocalDate.of(2026, 2, 28), entity.getEndDate());
+        assertEquals("{\"tableName\":\"ridership\"}", entity.getQuery());
+        assertEquals("{\"x\":3,\"y\":4}", entity.getCoordinate());
+        assertEquals(0, entity.getSourceId());
+        assertEquals(5, entity.getTableId());
+        assertEquals(6, entity.getColumnId());
+        assertEquals("{\"ids\":[9],\"values\":[\"Linea 9\"]}", entity.getFilters());
+    }
 }

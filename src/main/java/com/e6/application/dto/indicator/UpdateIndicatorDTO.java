@@ -12,15 +12,15 @@ public record UpdateIndicatorDTO(
         String title,
         String subtitle,
         IndicatorType type,
-        Double data,
         Relationship relationship,
-        Double deltaData,
         Operation operation,
         LocalDate startDate,
         LocalDate endDate,
-        String query,
         UUID dashboardId,
         Coordinate coordinate,
-        int sourceId
+        Integer sourceId,
+        Integer tableId,
+        Integer columnId,
+        IndicatorFiltersDTO filters
 ) {
 }
