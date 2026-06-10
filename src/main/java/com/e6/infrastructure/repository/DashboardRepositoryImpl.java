@@ -7,13 +7,19 @@ import com.e6.application.dto.dashboard.GetUserDashboardsResponseDTO;
 import com.e6.domain.exception.DashboardNotFoundException;
 import com.e6.domain.exception.TagNotFoundException;
 import com.e6.domain.model.Dashboard;
+import com.e6.domain.model.DashboardItemKind;
+import com.e6.domain.model.DashboardLayoutItem;
 import com.e6.domain.model.User;
 import com.e6.domain.repository.DashboardRepository;
 import com.e6.infrastructure.entity.DashboardEntity;
+import com.e6.infrastructure.entity.GraphEntity;
+import com.e6.infrastructure.entity.IndicatorEntity;
 import com.e6.infrastructure.entity.TagEntity;
 import com.e6.infrastructure.mapper.DashboardMapper;
 import com.e6.infrastructure.mapper.TagMapper;
 import com.e6.infrastructure.mapper.UserMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityNotFoundException;
@@ -77,6 +83,24 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
 
     @Override
     @Transactional
+    public CreateDashboardResponseDTO updateDashboard(Dashboard dashboard) {
+        DashboardEntity dashboardEntity = findByIdOptional(dashboard.getId())
+                .orElseThrow(() -> new DashboardNotFoundException(String.valueOf(dashboard.getId())));
+
+        if (dashboard.getTitle() != null)
+            dashboardEntity.setTitle(dashboard.getTitle());
+        if (dashboard.getDescription() != null)
+            dashboardEntity.setDescription(dashboard.getDescription());
+
+        return new CreateDashboardResponseDTO(
+                dashboardEntity.getId(),
+                dashboardEntity.getTitle(),
+                dashboardEntity.getDescription(),
+                dashboardEntity.getOwner().getFirstName() + dashboardEntity.getOwner().getPaternalSurname());
+    }
+
+    @Override
+    @Transactional
     public void deleteDashboardById(UUID id) {
         boolean deleted = deleteById(id);
         if (!deleted)
@@ -111,5 +135,44 @@ public class DashboardRepositoryImpl implements DashboardRepository, PanacheRepo
             throw new TagNotFoundException(String.valueOf(tagId));
         }
 
+    }
+
+    @Override
+    @Transactional
+    public Dashboard updateLayout(UUID id, List<DashboardLayoutItem> items) {
+        DashboardEntity dashboardEntity = findByIdOptional(id)
+                .orElseThrow(() -> new DashboardNotFoundException(String.valueOf(id)));
+
+        if (items == null) {
+            throw new IllegalArgumentException("items is required");
+        }
+
+        for (DashboardLayoutItem item : items) {
+            if (item.kind() == DashboardItemKind.GRAPH) {
+                GraphEntity graphEntity = getEntityManager().find(GraphEntity.class, item.resourceId());
+                if (graphEntity == null || !graphEntity.getDashboard().getId().equals(id)) {
+                    throw new IllegalArgumentException("Graph does not belong to dashboard: " + item.resourceId());
+                }
+                graphEntity.setCoordinate(writeCoordinate(item));
+            } else if (item.kind() == DashboardItemKind.INDICATOR) {
+                IndicatorEntity indicatorEntity = getEntityManager().find(IndicatorEntity.class, item.resourceId());
+                if (indicatorEntity == null || !indicatorEntity.getDashboard().getId().equals(id)) {
+                    throw new IllegalArgumentException("Indicator does not belong to dashboard: " + item.resourceId());
+                }
+                indicatorEntity.setCoordinate(writeCoordinate(item));
+            } else {
+                throw new IllegalArgumentException("Unsupported layout item kind: " + item.kind());
+            }
+        }
+
+        return DashboardMapper.toDomainFull(dashboardEntity);
+    }
+
+    private String writeCoordinate(DashboardLayoutItem item) {
+        try {
+            return new ObjectMapper().writeValueAsString(item.coordinate());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

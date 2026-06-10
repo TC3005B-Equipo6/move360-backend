@@ -1,0 +1,391 @@
+[
+  {
+    "id": 1,
+    "name": "INEGI",
+    "tables": [
+      {
+        "id": 1,
+        "displayName": "Metro",
+        "tableName": "i_metro",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Energía consumida",
+            "columnName": "energy_consumed"
+          },
+          {
+            "id": 2,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones",
+            "columnName": "operations"
+          },
+          {
+            "id": 4,
+            "displayName": "Pasajeros",
+            "columnName": "passengers"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "displayName": "Tren Ligero",
+        "tableName": "i_tren_ligero",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Ingresos",
+            "columnName": "fare_revenue"
+          },
+          {
+            "id": 2,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones",
+            "columnName": "operations"
+          },
+          {
+            "id": 4,
+            "displayName": "Pasajeros",
+            "columnName": "passengers"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "displayName": "Trolebus",
+        "tableName": "i_trolebus",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Ingresos",
+            "columnName": "fare_revenue"
+          },
+          {
+            "id": 2,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones",
+            "columnName": "operations"
+          },
+          {
+            "id": 4,
+            "displayName": "Pasajeros",
+            "columnName": "passengers"
+          },
+          {
+            "id": 5,
+            "displayName": "Líneas de servicio",
+            "columnName": "service_lines"
+          }
+
+        ]
+      },
+      {
+        "id": 4,
+        "displayName": "Tren suburbano",
+        "tableName": "i_tren_suburbano",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 2,
+            "displayName": "Operaciones (Entre semana)",
+            "columnName": "operations_week"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones (Fin de semana)",
+            "columnName": "operations_weekend"
+          },
+          {
+            "id": 4,
+            "displayName": "Pasajeros",
+            "columnName": "passengers"
+          },
+          {
+            "id": 5,
+            "displayName": "Rutas",
+            "columnName": "routes"
+
+          }        ]
+      },
+      {
+        "id": 5,
+        "displayName": "Cablebus",
+        "tableName": "i_cablebus",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Pasajaeros pago",
+            "columnName": "full_fare_passengers"
+          },
+          {
+            "id": 2,
+            "displayName": "Pasajeros gratuidad",
+            "columnName": "courtesy_passengers"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones (Entre semana)",
+            "columnName": "operations_week"
+          },
+          {
+            "id": 4,
+            "displayName": "Operaciones (Fin de semana)",
+            "columnName": "operations_weekend"
+          },
+          {
+            "id": 5,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 6,
+            "displayName": "Rutas",
+            "columnName": "routes"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "displayName": "Mexicable",
+        "tableName": "i_mexicable",
+        "columns" : [
+          {
+            "id": 1,
+            "displayName": "Pasajaeros pago",
+            "columnName": "full_fare_passengers"
+          },
+          {
+            "id": 2,
+            "displayName": "Pasajeros gratuidad",
+            "columnName": "courtesy_passengers"
+          },
+          {
+            "id": 3,
+            "displayName": "Operaciones (Entre semana)",
+            "columnName": "operations_week"
+          },
+          {
+            "id": 4,
+            "displayName": "Operaciones (Fin de semana)",
+            "columnName": "operations_weekend"
+          },
+          {
+            "id": 5,
+            "displayName": "Kilómetros recorridos",
+            "columnName": "km_traveled"
+          },
+          {
+            "id": 6,
+            "displayName": "Rutas",
+            "columnName": "routes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "SEMOVI",
+    "tables": [
+      {
+        "id": 1,
+        "displayName": "Metro",
+        "tableName": "s_stc_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Líneas",
+            "columnName": "line",
+            "values": [
+              "Línea 1",
+              "Línea 2",
+              "Línea 3",
+              "Línea 4",
+              "Línea 5",
+              "Línea 6",
+              "Línea 7",
+              "Línea 8",
+              "Línea 9",
+              "Línea A",
+              "Línea B",
+              "Línea 12"
+            ]
+          },
+          {
+            "id": 2,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Prepago",
+              "Gratuidad"
+            ]
+          },
+          {
+            "id": 3,
+            "displayName": "Estación",
+            "columnName": "station",
+            "values": [
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "displayName": "Tren Ligero",
+        "tableName": "s_tren_ligero_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Prepago",
+              "Gratuidad"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "displayName": "RTP",
+        "tableName": "s_rtp_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Boleto",
+              "Prepago",
+              "Gratuidad"
+            ]
+          },
+          {
+            "id": 2,
+            "displayName": "Tipo de servicio",
+            "columnName": "service",
+            "values": [
+              "Ordinario",
+              "Ecobús",
+              "Nochebús",
+              "Expreso",
+              "Atenea",
+              "Ecoatenea",
+              "Servicios Temporales",
+              "S/Metro"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "displayName": "Metrobus",
+        "tableName": "s_metrobus_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Prepago",
+              "Gratuidad"
+            ]
+          },
+          {
+            "id": 2,
+            "displayName": "Líneas",
+            "columnName": "line",
+            "values": [
+              "Línea 1",
+              "Línea 2",
+              "Línea 3",
+              "Línea 4",
+              "Línea 5",
+              "Línea 6",
+              "Línea 7"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "displayName": "Trolebus",
+        "tableName": "s_trolebus_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Prepago",
+              "Gratuidad"
+            ]
+          },
+          {
+            "id": 2,
+            "displayName": "Líneas",
+            "columnName": "line",
+            "values": [
+              "Línea 1",
+              "Línea 1 Nochebús",
+              "Línea 2",
+              "Línea 3",
+              "Línea 4",
+              "Línea 5",
+              "Línea 6",
+              "Línea 7",
+              "Línea 8",
+              "Línea 9",
+              "Línea 10",
+              "Línea 11",
+              "Línea 12",
+              "Línea 13"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "displayName": "Cablebus",
+        "tableName": "s_cablebus_desglosado",
+        "filters" : [
+          {
+            "id": 1,
+            "displayName": "Tipo de pago",
+            "columnName": "payment_type",
+            "values": [
+              "Prepago",
+              "Gratuidad"
+            ]
+          },
+          {
+            "id": 2,
+            "displayName": "Líneas",
+            "columnName": "line",
+            "values": [
+              "Línea 1",
+              "Línea 2",
+              "Línea 3"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

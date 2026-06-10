@@ -1,5 +1,8 @@
 package com.e6.domain.model;
 
+import com.e6.domain.model.Indicator.Indicator;
+import com.e6.domain.model.graph.Graph;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
